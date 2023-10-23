@@ -1,4 +1,4 @@
-# CLASSIX
+# CLASSIX Clustering for MATLAB
 A MATLAB implementation of CLASSIX, a fast and explainable clustering method based on sorting
 
 There are various ways to run CLASSIX in MATLAB and this folder contains several files demonstrating this.
