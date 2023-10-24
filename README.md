@@ -1,7 +1,7 @@
 # A CLASSIX implementation for MATLAB
 
 
-CLASSIX is a fast and memory-efficient clustering algorithm which is able to provide textual and visual explanations of its clustering results [1]. In contrast to clustering methods like DBSCAN, CLASSIX does not use any tree-based data structures to perform nearest-neighbor searches (its memory requirement grows essentially linearly in the number of data points). In contrast to the popular k-means algorithm, which is tailored to spherical clusters, CLASSIX can detect clusters of arbitrary shape. 
+CLASSIX is a fast and memory-efficient clustering algorithm which provides textual and visual explanations of its clustering results [1]. In contrast to clustering methods like DBSCAN, CLASSIX does not use any tree-based data structures to perform nearest-neighbor searches (its memory requirement grows essentially linearly in the number of data points). In contrast to the popular k-means algorithm, which is tailored to spherical clusters, CLASSIX can detect clusters of arbitrary shape. 
 
 
 # Basic usage
