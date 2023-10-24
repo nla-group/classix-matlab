@@ -9,9 +9,11 @@ function [label, explain, out] = classix(x, r, minPts, merge_tiny_groups)
 % returns  * cluster labels of the data
 %          * function handle to explain functionality
 %          * opts structure with 
-%                .sp    -  starting point indices 
+%
 %                .cs    -  cluster size (#points in each cluster)
 %                .dist  -  #distance computations during aggregation
+%                .sp    -  starting point indices 
+%                .scl   -  data scaling parameter
 %                .t1... -  timings of each of CLASSIX's steps in s
 %
 % This is a MATLAB implementation of the CLASSIX clustering algorithm:
@@ -405,9 +407,11 @@ explain = @(varargin) explain_fun(varargin);
 out.t5_finalize = toc(t);
 
 %% prepare out structure
-out.sp = sp;
 out.cs = cs;
 out.dist = dist;
+out.sp = sp;
+out.scl = scl;
+
 
 end
 

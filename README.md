@@ -1,7 +1,7 @@
 # A CLASSIX implementation for MATLAB
 
 
-CLASSIX is a fast and memory-efficient clustering algorithm which provides textual and visual explanations of its clustering results [1]. In contrast to clustering methods like DBSCAN, CLASSIX does not use any tree-based data structures to perform nearest-neighbor searches (its memory requirement grows essentially linearly in the number of data points). In contrast to the popular k-means algorithm, which is tailored to spherical clusters, CLASSIX can detect clusters of arbitrary shape. 
+CLASSIX is a fast and memory-efficient clustering method which provides textual and visual explanations of its clustering results [1]. In contrast to clustering methods like DBSCAN, CLASSIX does not use any tree-based data structures to perform nearest-neighbor searches (its memory requirement grows essentially linearly in the number of data points). In contrast to the popular k-means algorithm, which is tailored to spherical clusters, CLASSIX can detect clusters of arbitrary shape. 
 
 
 # Basic usage
@@ -133,7 +133,7 @@ r1 = mvnrnd(mu1,sigma1,1e5);   % Much larger number of data points!
 r2 = mvnrnd(mu2,sigma2,1e5);
 data = [r1; r2];
 tic;
-[label, explain, out] = classix(data, 0.1, 50, 0);  % note the final 0 option
+[label, explain, out] = classix(data, 0.1, 50, 0);  % note the final 0 param
 toc
 ```
 
@@ -372,16 +372,15 @@ CLASSIX is a fast and memory-efficient clustering algorithm which produces expla
    -  Python code: [Fast and explainable clustering based on sorting (github.com)](https://github.com/nla-group/classix) 
    -  YouTube video: [CLASSIX - Fast and explainable clustering based on sorting - YouTube](https://www.youtube.com/watch?v=K94zgRjFEYo) 
 
+
+
+This documentation has been generated from the MATLAB live script `README.mlx`. You can try this link to open it in MATLAB Online and explore CLASSIX interactively: [https://matlab.mathworks.com/open/github/v1?repo=nla-group/classix-matlab\&file=README.mlx](https://matlab.mathworks.com/open/github/v1?repo=nla-group/classix-matlab&file=README.mlx) 
+
+
 # Contributors
 
 
 This MATLAB CLASSIX implementation is maintained by Xinye Chen (Charles University Prague), Mike Croucher (MathWorks), and Stefan Güttel (University of Manchester). If you find CLASSIX useful in your work, please consider citing the below reference [1]. If you have any problems or questions, just drop us an email to `stefan.guettel@manchester.ac.uk`.
-
-
-# MATLAB Online
-
-
-This documentation has been generated from the MATLAB live script README.mlx. You can try this link to open it in MATLAB Online: [https://matlab.mathworks.com/open/github/v1?repo=nla-group/classix-matlab\&file=README.mlx](https://matlab.mathworks.com/open/github/v1?repo=nla-group/classix-matlab&file=README.mlx) 
 
 
 # References
