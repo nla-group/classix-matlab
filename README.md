@@ -383,5 +383,9 @@ This documentation has been generated from the MATLAB live script README.mlx. Yo
 [3] M. Ester, H.-P. Kriegel, J. Sander, and X. Xiaowei. "A density-based algorithm for discovering clusters in large spatial databases with noise." In *Proceedings of the Second International Conference on Knowledge Discovery in Databases and Data Mining*, pages 226-231, 1996.
 
 
-  
-\matlabtitle{![image_0.png](README_media/image_0.png)}
+<br><br>
+<p align="left">
+  <a>
+    <img alt="CLASSIX" src="README_media/image_0.png" width="240" />
+  </a>
+</p>
