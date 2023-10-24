@@ -12,17 +12,17 @@ The MATLAB file `classix.m` fully implements all essential CLASSIX features avai
 
 
 
-CLASSIX accepts three essential input parameters: `data, radius,` and `minPts` (optionally). The data points to be clustered are provided as the rows of the matrix `data,` that is, 
+CLASSIX accepts three essential input parameters: `data, radius, minPts` (optionally). The data points to be clustered are provided as the rows of the matrix `data`, that is, 
 
 
 
 
-`    data` is of size (number of data points)-by-(number of features). 
+`data` is of size (number of data points)-by-(number of features). 
 
 
 
 
-The `radius` parameter controls the *coarseness* of the clusters. The higher it is, larger the clusters will be. We usually recommend starting with a value like `radius=1,` and then subsequently reducing it until the number of clusters is just a little larger than expected. The second `minPts` parameter (default 1) can then be used to get rid of tiny clusters with fewer than `minPts` points. In the below test we choose` radius=0.2` and `minPts=10.`
+The `radius` parameter controls the *coarseness* of the clusters. The higher it is, larger the clusters will be. We usually recommend starting with a value like `radius=1`, and then subsequently reducing it until the number of clusters is just a little larger than expected. The second `minPts` parameter (default 1) can then be used to get rid of tiny clusters with fewer than `minPts` points. In the below test we choose` radius=0.2` and `minPts=10.`
 
 
 
@@ -49,7 +49,7 @@ Elapsed time is 0.060389 seconds.
 
 
 
-`classix.m` has three output parameters: `label,` `explain,` `out.` The first one, the vector `label,` contains the cluster label of each data point. We can use it to produce a scatter plot via `scatter(data(:,1),data(:,2),20,label,"filled").` But we actually don't have to do that manually: the `explain` function provides us with a textual summary of the performed clustering, and conveniently produces a scatter plot as well:
+`classix.m` has three output parameters: `label, explain, out`. The first one, the vector `label`, contains the cluster label of each data point. We can use it to produce a scatter plot via `scatter(data(:,1),data(:,2),20,label,"filled")`. But we actually don't have to do that manually: the `explain` function provides us with a textual summary of the performed clustering, and conveniently produces a scatter plot as well:
 
 
 
@@ -97,7 +97,7 @@ A path of overlapping groups with step size <= 1.5*R = 1.21 is:
 
 
 
-See how CLASSIX has highlighted the two data points 100 and 800 as magenta crosses (x) in the blue cluster (cluster \#1). Each of these data points falls into a group (group number 49 and 6, respectively) and the group centers are shown as black pluses (`+`),with the green and cyan circles indicating the group radius. The size of the groups is controlled by CLASSIX's `radius` parameter, and two groups are considered as overlapping when their group centers are less than \texttt{1.5*R} apart. Overlapping groups are merged into clusters.
+See how CLASSIX has highlighted the two data points 100 and 800 as magenta crosses (`x`) in the blue cluster (cluster \#1). Each of these data points falls into a group (group number 49 and 6, respectively) and the group centers are shown as black pluses (`+`),with the green and cyan circles indicating the group radius. The size of the groups is controlled by CLASSIX's `radius` parameter, and two groups are considered as overlapping when their group centers are less than \texttt{1.5*R} apart. Overlapping groups are merged into clusters.
 
 
 
@@ -128,7 +128,7 @@ There is no path of overlapping groups between 6 and 72.
 # An experimental option
 
 
-We have added a new experimental option to `classix.m,` namely a fourth input parameter called `merge_tiny_groups.` This parameter is `true` by default, resulting in the original CLASSIX method [1]. But when it is set to `false,` tiny groups with fewer than `minPts` points will be ignored in the merging phase and become stand-alone clusters first, before they are subsequently merged into a nearest bigger cluster. (That's different from the usual `minPts` criterion which applies to the size of clusters, not the size of individual groups.) This option can sometimes overcome 'creeping' between small groups, whereby clusters get merged simply because they are touched by low density groups. This allows us to cluster Gaussian blobs even when they are visibly intersecting.
+We have added a new experimental option to `classix.m,` namely a fourth input parameter called `merge_tiny_groups`. This parameter is `true` by default, resulting in the original CLASSIX method [1]. But when it is set to `false`, tiny groups with fewer than `minPts` points will be ignored in the merging phase and become stand-alone clusters first, before they are subsequently merged into a nearest bigger cluster. (That's different from the usual `minPts` criterion which applies to the size of clusters, not the size of individual groups.) This option can sometimes overcome 'creeping' between small groups, whereby clusters get merged simply because they are touched by low density groups. This allows us to cluster Gaussian blobs even when they are visibly intersecting.
 
 
 
@@ -344,10 +344,21 @@ fprintf('Extrapolated DBSCAN runtime for all %d datapoints: %3.1f hours.',size(d
 Extrapolated DBSCAN runtime for all 2028780 datapoints: 0.9 hours.
 ```
 
+# Learn more about CLASSIX?
+
+
+CLASSIX is a fast and memory-efficient clustering algorithm which produces explainable results. If you'd like to learn more about CLASSIX, here are a couple of online resources:
+
+
+
+   -  arXiv paper [1]: [Fast and explainable clustering based on sorting (arxiv.org)](https://arxiv.org/abs/2202.01456) 
+   -  Python code: [Fast and explainable clustering based on sorting (github.com)](https://github.com/nla-group/classix) 
+   -  YouTube video: [CLASSIX - Fast and explainable clustering based on sorting - YouTube](https://www.youtube.com/watch?v=K94zgRjFEYo) 
+
 # Contributors
 
 
-The MATLAB CLASSIX implementation is developed and maintained by Xinye Chen (Charles University Prague), Mike Croucher (MathWorks), and Stefan Güttel (University of Manchester). If you find CLASSIX useful in your work, please consider citing the below reference [1]. If you have any problems or questions, just drop us an email to `stefan.guettel@manchester.ac.u`k.
+This MATLAB CLASSIX implementation is maintained by Xinye Chen (Charles University Prague), Mike Croucher (MathWorks), and Stefan Güttel (University of Manchester). If you find CLASSIX useful in your work, please consider citing the below reference [1]. If you have any problems or questions, just drop us an email to `stefan.guettel@manchester.ac.uk`.
 
 
 # MATLAB Online
@@ -372,4 +383,5 @@ This documentation has been generated from the MATLAB live script README.mlx. Yo
 [3] M. Ester, H.-P. Kriegel, J. Sander, and X. Xiaowei. "A density-based algorithm for discovering clusters in large spatial databases with noise." In *Proceedings of the Second International Conference on Knowledge Discovery in Databases and Data Mining*, pages 226-231, 1996.
 
 
+  
 \matlabtitle{![image_0.png](README_media/image_0.png)}
