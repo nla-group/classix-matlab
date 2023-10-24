@@ -7,22 +7,17 @@ CLASSIX is a fast and memory-efficient clustering algorithm which provides textu
 # Basic usage
 
 
-The MATLAB file `classix.m` fully implements all essential CLASSIX features available in the Python implementation. And using it is very straightforward. Let's demonstrate this on an artificial dataset comprised of two Gaussian blobs in 2D. 
+The MATLAB file `classix.m` fully implements all essential CLASSIX features available in the Python implementation. And using it is very straightforward. CLASSIX accepts three essential input parameters: `data, radius, minPts` (optionally). The data points to be clustered are provided as the rows of the matrix `data`, that is, `data` is of size [number of data points]-by-[number of features]. 
 
 
 
 
-CLASSIX accepts three essential input parameters: `data, radius, minPts` (optionally). The data points to be clustered are provided as the rows of the matrix `data`, that is, 
+The `radius` parameter controls the *coarseness* of the clusters. The higher it is, larger the clusters will be. We usually recommend starting with a value like `radius=1`, and then subsequently reducing it until the number of clusters is just a little larger than expected. The second `minPts` parameter (default 1) can then be used to get rid of tiny clusters with fewer than `minPts` points. 
 
 
 
 
-`data` is of size (number of data points)-by-(number of features). 
-
-
-
-
-The `radius` parameter controls the *coarseness* of the clusters. The higher it is, larger the clusters will be. We usually recommend starting with a value like `radius=1`, and then subsequently reducing it until the number of clusters is just a little larger than expected. The second `minPts` parameter (default 1) can then be used to get rid of tiny clusters with fewer than `minPts` points. In the below test we choose` radius=0.2` and `minPts=10.`
+Let's demonstrate CLASSIX on an artificial dataset comprised of two Gaussian blobs in 2D. In the below test we choose `radius=0.2` and `minPts=10`.
 
 
 
@@ -44,7 +39,7 @@ toc
 
 
 ```text:Output
-Elapsed time is 0.060389 seconds.
+Elapsed time is 0.074340 seconds.
 ```
 
 
@@ -76,7 +71,7 @@ use explain(ind1) or explain(ind1,ind2) with indices of points.
 # The explain() function
 
 
-When called with one or two input arguments, the `explain` function justifies why data points ended up in the same cluster, or not. For example, let's find out why data points 100 and 800 ended up in the same cluster:
+When called with one or two input arguments, the `explain()` function justifies why data points ended up in the same cluster, or not. For example, let's find out why data points 100 and 800 ended up in the same cluster:
 
 
 
@@ -97,7 +92,7 @@ A path of overlapping groups with step size <= 1.5*R = 1.21 is:
 
 
 
-See how CLASSIX has highlighted the two data points 100 and 800 as magenta crosses (`x`) in the blue cluster (cluster \#1). Each of these data points falls into a group (group number 49 and 6, respectively) and the group centers are shown as black pluses (`+`),with the green and cyan circles indicating the group radius. The size of the groups is controlled by CLASSIX's `radius` parameter, and two groups are considered as overlapping when their group centers are less than\texttt{ 1.5*R }apart. Overlapping groups are merged into clusters.
+See how CLASSIX has highlighted the two data points 100 and 800 as magenta crosses (`x`) in the blue cluster (cluster \#1). Each of these data points falls into a group (group number 49 and 6, respectively) and the group centers are shown as black pluses (`+`),with the green and cyan circles indicating the group radius. The size of the groups is controlled by CLASSIX's `radius` parameter, and two groups are considered as overlapping when their group centers are less than \texttt{1.5*R} apart. Overlapping groups are merged into clusters.
 
 
 
@@ -128,7 +123,7 @@ There is no path of overlapping groups between 6 and 72.
 # An experimental option
 
 
-We have added a new experimental option to `classix.m,` namely a fourth input parameter called `merge_tiny_groups`. This parameter is `true` by default, resulting in the original CLASSIX method [1]. But when it is set to `false`, tiny groups with fewer than `minPts` points will be ignored in the merging phase and become stand-alone clusters first, before they are subsequently merged into a nearest bigger cluster. (That's different from the usual `minPts` criterion which applies to the size of clusters, not the size of individual groups.) This option can sometimes overcome 'creeping' between small groups, whereby clusters get merged simply because they are touched by low density groups. This allows us to cluster Gaussian blobs even when they are visibly intersecting.
+We have added a new experimental option to `classix.m`, namely a fourth input parameter called `merge_tiny_groups`. This parameter is `true` by default, resulting in the original CLASSIX method [1]. But when it is set to `false`, tiny groups with fewer than `minPts` points will be ignored in the merging phase and become stand-alone clusters first, before they are subsequently merged into a nearest bigger cluster. (That's different from the usual `minPts` criterion which applies to the size of clusters, not the size of individual groups.) This option can sometimes overcome 'creeping' between small groups, whereby clusters get merged simply because they are touched by low density groups. This allows us to cluster Gaussian blobs even when they are visibly intersecting.
 
 
 
@@ -144,7 +139,7 @@ toc
 
 
 ```text:Output
-Elapsed time is 0.161977 seconds.
+Elapsed time is 0.182897 seconds.
 ```
 
 
@@ -178,25 +173,20 @@ Yes, `classix.m` has been optimized for speed and low memory consumption, and ca
 
 ```matlab:Code
 ari = @(a,b) rand_index(double(a),double(b),'adjusted');
-load Phoneme.mat
-% z-normalization and parameters chosen identical to the test in
+load('data/Phoneme.mat')
+% z-normalization and parameters below chosen identically to the test in
 % https://github.com/nla-group/classix/blob/master/exp/run_real_world.py
 data = (data - mean(data))./std(data); 
 
 tic
 [label, explain, out] = classix(data,0.445,8);
 fprintf('  CLASSIX.m runtime: %5.3f seconds - classes: %d - ARI: %3.2f\n',...
-    toc,length(unique(label)), ari(labels,label))
+    toc, length(unique(label)), ari(labels,label))
 ```
 
 
 ```text:Output
-  CLASSIX.m runtime: 1.169 seconds - classes: 4 - ARI: 0.76
-```
-
-
-```matlab:Code
-explain()
+  CLASSIX.m runtime: 1.259 seconds - classes: 4 - ARI: 0.76
 ```
 
 
@@ -208,14 +198,14 @@ We can also compare to MATLAB's DBSCAN [3]:
 ```matlab:Code
 %% MATLAB DBSCAN
 tic
-idx = dbscan(data,9.175,10); % Also determined by grid search. ARI should be 0.51.
+idx = dbscan(data,9.175,10); % Params determined by grid search. ARI should be 0.51.
 fprintf('  DBSCAN   runtime: %5.3f seconds - classes: %d - ARI: %3.2f\n',...
-    toc,length(unique(idx)), ari(labels,idx))
+    toc, length(unique(idx)), ari(labels,idx))
 ```
 
 
 ```text:Output
-  DBSCAN   runtime: 0.332 seconds - classes: 5 - ARI: 0.51
+  DBSCAN   runtime: 0.394 seconds - classes: 5 - ARI: 0.51
 ```
 
 
@@ -231,7 +221,7 @@ CLASSIX becomes very powerful in particular for extremely large datasets (i.e., 
 
 
 ```matlab:Code
-load vdu_signals_single.mat
+load('data/vdu_signals_single.mat')
 data = double(data);
 data = (data - mean(data))./std(data); 
 % no ground truth labels for this dataset
@@ -245,7 +235,7 @@ fprintf('  CLASSIX runtime: %5.3f seconds - classes: %d\n',...
 
 
 ```text:Output
-  CLASSIX runtime: 0.567 seconds - classes: 7
+  CLASSIX runtime: 0.495 seconds - classes: 7
 ```
 
 
@@ -272,22 +262,22 @@ Too many data points for plot. Randomly subsampled 1e5 points.
 
 
 
-Let us compare to DBSCAN. In order to run DBSCAN to completion in reasonable time, we need to downsample to 5% of the data. The hyperparameters are chosen to approximately match the clustering results from CLASSIX.
+Let us compare to DBSCAN. In order to run DBSCAN in reasonable time, we downsample to 5% of the data. The hyperparameters are chosen to approximately match the clustering results of CLASSIX.
 
 
 
 ```matlab:Code
 %% MATLAB DBSCAN
-%  We cluster only 5% of the data with DBSCAN
+%  We cluster only 5% of the data.
 tic
-idx = dbscan(data(1:20:end,:), 0.7, 6);   % subsample to 5% of data
+idx = dbscan(data(1:20:end,:), 0.7, 6);   % subsample
 fprintf('  DBSCAN   runtime: %6.3f seconds - classes: %d\n',...
     toc,length(unique(idx)))
 ```
 
 
 ```text:Output
-  DBSCAN   runtime:  7.936 seconds - classes: 5
+  DBSCAN   runtime:  8.208 seconds - classes: 5
 ```
 
 # Scaling test: CLASSIX vs DBSCAN
@@ -319,43 +309,43 @@ end
   DBSCAN  runtime:  0.190 seconds - classes: 5
 # of data points: 20087
   CLASSIX runtime:  0.010 seconds - classes: 4
-  DBSCAN  runtime:  0.457 seconds - classes: 4
+  DBSCAN  runtime:  0.505 seconds - classes: 4
 # of data points: 29835
-  CLASSIX runtime:  0.016 seconds - classes: 4
-  DBSCAN  runtime:  0.882 seconds - classes: 5
+  CLASSIX runtime:  0.013 seconds - classes: 4
+  DBSCAN  runtime:  0.917 seconds - classes: 5
 # of data points: 39780
-  CLASSIX runtime:  0.014 seconds - classes: 5
-  DBSCAN  runtime:  1.387 seconds - classes: 6
+  CLASSIX runtime:  0.016 seconds - classes: 5
+  DBSCAN  runtime:  1.508 seconds - classes: 6
 # of data points: 49483
-  CLASSIX runtime:  0.020 seconds - classes: 7
-  DBSCAN  runtime:  1.989 seconds - classes: 5
+  CLASSIX runtime:  0.022 seconds - classes: 7
+  DBSCAN  runtime:  2.084 seconds - classes: 5
 # of data points: 59670
-  CLASSIX runtime:  0.024 seconds - classes: 5
-  DBSCAN  runtime:  3.021 seconds - classes: 5
+  CLASSIX runtime:  0.022 seconds - classes: 5
+  DBSCAN  runtime:  2.834 seconds - classes: 5
 # of data points: 69958
-  CLASSIX runtime:  0.025 seconds - classes: 6
-  DBSCAN  runtime:  3.804 seconds - classes: 7
+  CLASSIX runtime:  0.023 seconds - classes: 6
+  DBSCAN  runtime:  3.682 seconds - classes: 7
 # of data points: 81152
-  CLASSIX runtime:  0.033 seconds - classes: 7
-  DBSCAN  runtime:  5.152 seconds - classes: 6
+  CLASSIX runtime:  0.024 seconds - classes: 7
+  DBSCAN  runtime:  4.768 seconds - classes: 6
 # of data points: 88208
-  CLASSIX runtime:  0.038 seconds - classes: 9
-  DBSCAN  runtime:  5.955 seconds - classes: 6
+  CLASSIX runtime:  0.028 seconds - classes: 9
+  DBSCAN  runtime:  5.746 seconds - classes: 6
 # of data points: 101439
-  CLASSIX runtime:  0.036 seconds - classes: 8
-  DBSCAN  runtime:  7.609 seconds - classes: 5
+  CLASSIX runtime:  0.026 seconds - classes: 8
+  DBSCAN  runtime:  7.525 seconds - classes: 5
 ```
 
 
 ```matlab:Code
 figure
-plot(npts,t_classix,'-o','LineWidth',2)
-hold on
+plot(npts,t_classix,'-o','LineWidth',2), hold on
 plot(npts,t_dbscan,'--s','LineWidth',2)
 p = polyfit(npts, t_dbscan, 2);
 plot(npts,polyval(p, npts),'k:','LineWidth',2)
-legend('CLASSIX','DBSCAN','quadratic fit', 'Location','northwest')
-xlabel('number data points'); ylabel('runtime in seconds'); title('CLASSIX vs DBSCAN runtime')
+legend('CLASSIX','DBSCAN','quadratic fit','Location','northwest')
+xlabel('number data points'); ylabel('runtime in seconds'); 
+title('CLASSIX vs DBSCAN runtime')
 ```
 
 
@@ -368,7 +358,7 @@ fprintf('Extrapolated DBSCAN runtime for all %d datapoints: %3.1f minutes.',size
 
 
 ```text:Output
-Extrapolated DBSCAN runtime for all 2028780 datapoints: 44.4 minutes.
+Extrapolated DBSCAN runtime for all 2028780 datapoints: 44.3 minutes.
 ```
 
 # Learn more about CLASSIX?
@@ -410,11 +400,3 @@ This documentation has been generated from the MATLAB live script README.mlx. Yo
 [3] M. Ester, H.-P. Kriegel, J. Sander, and X. Xiaowei. "A density-based algorithm for discovering clusters in large spatial databases with noise." In *Proceedings of the Second International Conference on Knowledge Discovery in Databases and Data Mining*, pages 226-231, 1996.
 
 
-  
-
-<br><br>
-<p align="left">
-  <a>
-    <img alt="CLASSIX" src="README_media/image_0.png" width="240" />
-  </a>
-</p>
