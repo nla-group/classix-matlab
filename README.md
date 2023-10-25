@@ -1,22 +1,16 @@
-# CLASSIX: Fast and explainable clustering in MATLAB
 
+# <span style="color:rgb(213,80,0)">CLASSIX: Fast and explainable clustering in MATLAB</span>
 
 CLASSIX is a fast and memory-efficient clustering method which provides textual and visual explanations of its clustering results. In contrast to clustering methods like DBSCAN, CLASSIX does not use any tree-based data structures to perform nearest-neighbor searches. In contrast to the popular k-means algorithm, which is tailored to spherical clusters, CLASSIX can detect clusters of arbitrary shape. 
 
-
 # Basic usage
 
-
-CLASSIX accepts three essential input parameters: `data, radius, minPts` (optional). The data points to be clustered are provided as the rows of the matrix `data`. The `radius` parameter controls the *coarseness* of the clusters. Larger `radius` leads to larger clusters. We usually recommend starting with a value like `radius=1`, and then subsequently reducing it until the number of clusters is just a little larger than expected. The `minPts` parameter (default 1) can then be used to get rid of tiny clusters with fewer than `minPts` points. 
-
+CLASSIX accepts three essential input parameters: <samp>data, radius, minPts</samp> (optional). The data points to be clustered are provided as the rows of the matrix <samp>data</samp>. The <samp>radius</samp> parameter controls the *coarseness* of the clusters. Larger <samp>radius</samp> leads to larger clusters. We usually recommend starting with a value like <samp>radius=1</samp>, and then subsequently reducing it until the number of clusters is just a little larger than expected. The <samp>minPts</samp> parameter (default 1) can then be used to get rid of tiny clusters with fewer than <samp>minPts</samp> points. 
 
 
+Let's demonstrate CLASSIX on an artificial dataset comprised of two Gaussian blobs. In the below test we choose <samp>radius=0.2</samp> and <samp>minPts=10</samp>.
 
-Let's demonstrate CLASSIX on an artificial dataset comprised of two Gaussian blobs. In the below test we choose `radius=0.2` and `minPts=10`.
-
-
-
-```matlab:Code
+```matlab
 clear all
 close all hidden
 rng('default')                  % For reproducibility
@@ -32,23 +26,17 @@ tic
 toc
 ```
 
-
-```text:Output
+```TextOutput
 Elapsed time is 0.061989 seconds.
 ```
 
+<samp>classix.m</samp> has three output parameters: <samp>label, explain, out</samp>. The first one, the vector <samp>label</samp>, contains the cluster label of each data point. We can use it to produce a scatter plot via <samp>scatter(data(:,1),data(:,2),20,label)</samp>. But we actually don't have to do that manually: the <samp>explain</samp> function provides us with a textual summary of the performed clustering, and conveniently produces a scatter plot as well:
 
-
-`classix.m` has three output parameters: `label, explain, out`. The first one, the vector `label`, contains the cluster label of each data point. We can use it to produce a scatter plot via `scatter(data(:,1),data(:,2),20,label)`. But we actually don't have to do that manually: the `explain` function provides us with a textual summary of the performed clustering, and conveniently produces a scatter plot as well:
-
-
-
-```matlab:Code
+```matlab
 explain()
 ```
 
-
-```text:Output
+```TextOutput
 A clustering of 2000 data points with 2 features was performed.
 The radius parameter was set to 0.20 and MinPts was set to 10.
 As the provided data was auto-scaled by a factor of 1/4.02,
@@ -60,69 +48,51 @@ In order to explain the clustering of individual data points,
 use explain(ind1) or explain(ind1,ind2) with indices of points.
 ```
 
-
-![figure_0.png](README_media/figure_0.png)
+<center><img src="img\README_media/figure_0.png" width="578" alt="figure_0.png"></center>
 
 # The explain() function
 
+When called with one or two input arguments, the <samp>explain()</samp> function justifies why data points ended up in the same cluster, or not. Let's find out why data points 100 and 800 ended up in the same cluster:
 
-When called with one or two input arguments, the `explain()` function justifies why data points ended up in the same cluster, or not. Let's find out why data points 100 and 800 ended up in the same cluster:
-
-
-
-```matlab:Code
+```matlab
 explain(100,800)
 ```
 
-
-```text:Output
+```TextOutput
 Data point 100 is in group 49, which was merged into cluster #1.
 Data point 800 is in group 6, which was merged into cluster #1.
 A path of overlapping groups with step size <= 1.5*R = 1.21 is:
  49 -> 44 -> 38 -> 29 -> 18 -> 12 -> 7 -> 6
 ```
 
-
-![figure_1.png](README_media/figure_1.png)
-
+<center><img src="img\README_media/figure_1.png" width="578" alt="figure_1.png"></center>
 
 
-See how CLASSIX has highlighted the two data points 100 and 800 as magenta crosses (`x`) in the blue cluster (cluster \#1). Each of these data points falls into a group (group number 49 and 6, respectively) and the group centers are shown as black pluses (`+`),with the green and cyan circles indicating the group radius. The size of the groups is controlled by CLASSIX's `radius` parameter, and two groups are considered as overlapping when their group centers are less than \texttt{1.5*R} apart. Overlapping groups are merged into clusters.
+See how CLASSIX has highlighted the two data points 100 and 800 as magenta crosses (<samp>x</samp>) in the blue cluster (cluster #1). Each of these data points falls into a group (group number 49 and 6, respectively) and the group centers are shown as black pluses (<samp>+</samp>),with the green and cyan circles indicating the group radius. The size of the groups is controlled by CLASSIX's <samp>radius</samp> parameter, and two groups are considered as overlapping when their group centers are less than \texttt{1.5*R} apart. Overlapping groups are merged into clusters.
 
 
-
-
-CLASSIX's explanation of why data both points are in the same cluster is that there is a path of overlapping groups leading from group 49 to group 6, and this path is also shown with black pluses (`+`). This feature simply uses MATLAB's `shortestpath` graph function. However, note that the path is not necessarily the shortest due to the sequential nature of the group merging. It is just *some* path of data points (group centers) within the cluster that connects the groups containing the two data points in question.
-
-
+CLASSIX's explanation of why data both points are in the same cluster is that there is a path of overlapping groups leading from group 49 to group 6, and this path is also shown with black pluses (<samp>+</samp>). This feature simply uses MATLAB's <samp>shortestpath</samp> graph function. However, note that the path is not necessarily the shortest due to the sequential nature of the group merging. It is just *some* path of data points (group centers) within the cluster that connects the groups containing the two data points in question.
 
 
 If there is no path of overlapping groups from one data point to the other, the data points are not in the same cluster. CLASSIX explains that as well:
 
-
-
-```matlab:Code
+```matlab
 explain(800,1800)
 ```
 
-
-```text:Output
+```TextOutput
 Data point 800 is in group 6, which was merged into cluster #1.
 Data point 1800 is in group 72, which was merged into cluster #2.
 There is no path of overlapping groups between 6 and 72.
 ```
 
+<center><img src="img\README_media/figure_2.png" width="578" alt="figure_2.png"></center>
 
-![figure_2.png](README_media/figure_2.png)
+# Is <samp>classix.m</samp> fast?
 
-# Is `classix.m` fast?
+Yes, <samp>classix.m</samp> has been optimized for speed and low memory consumption, and can be even faster than the original Python CLASSIX implementation. Let's test CLASSIX on a slightly larger dataset, namely the <samp>'Phoneme'</samp> dataset from the UCI Machine Learning Repository (4509 data points, 256 features) [3]. We're using the 'optimal' hyperparameters determined via grid search in the CLASSIX paper [1]. We measure the quality of the clustering using the adjusted Rand index.
 
-
-Yes, `classix.m` has been optimized for speed and low memory consumption, and can be even faster than the original Python CLASSIX implementation. Let's test CLASSIX on a slightly larger dataset, namely the `'Phoneme'` dataset from the UCI Machine Learning Repository (4509 data points, 256 features) [3]. We're using the 'optimal' hyperparameters determined via grid search in the CLASSIX paper [1]. We measure the quality of the clustering using the adjusted Rand index.
-
-
-
-```matlab:Code
+```matlab
 ari = @(a,b) rand_index(double(a),double(b),'adjusted');
 load('data/Phoneme.mat')
 % z-normalization and parameters below chosen identically to the test in
@@ -135,18 +105,13 @@ fprintf('  CLASSIX.m runtime: %5.3f seconds - classes: %d - ARI: %3.2f\n',...
     toc, length(unique(label)), ari(labels,label))
 ```
 
-
-```text:Output
+```TextOutput
   CLASSIX.m runtime: 1.253 seconds - classes: 4 - ARI: 0.76
 ```
 
-
-
 We can also compare to MATLAB's DBSCAN [3]:
 
-
-
-```matlab:Code
+```matlab
 %% MATLAB DBSCAN
 tic
 idx = dbscan(data,9.175,10); % Params determined by grid search. ARI should be 0.51.
@@ -154,24 +119,17 @@ fprintf('  DBSCAN   runtime: %5.3f seconds - classes: %d - ARI: %3.2f\n',...
     toc, length(unique(idx)), ari(labels,idx))
 ```
 
-
-```text:Output
+```TextOutput
   DBSCAN   runtime: 0.358 seconds - classes: 5 - ARI: 0.51
 ```
 
-
-
-On this dataset, DBSCAN isn't able to achieve an ARI as high as CLASSIX. We have made efforts to choose the best parameters for DBSCAN, though of course one can never be certain they are actually the best possible. In any case, `classix.m` is only a small factor slower than DBSCAN for this dataset, even though DBSCAN is fully implemented in C++.
-
+On this dataset, DBSCAN isn't able to achieve an ARI as high as CLASSIX. We have made efforts to choose the best parameters for DBSCAN, though of course one can never be certain they are actually the best possible. In any case, <samp>classix.m</samp> is only a small factor slower than DBSCAN for this dataset, even though DBSCAN is fully implemented in C++.
 
 # CLASSIX on very large datasets
 
-
 CLASSIX becomes very powerful in particular for extremely large datasets (i.e., many data points) of not too high dimension. Here's an example with more than 2 millions data points for which CLASSIX returns a reasonably looking clustering in half a second:
 
-
-
-```matlab:Code
+```matlab
 load('data/vdu_signals_single.mat')
 data = double(data);
 data = (data - mean(data))./std(data); 
@@ -184,18 +142,15 @@ fprintf('  CLASSIX runtime: %5.3f seconds - classes: %d\n',...
     toc, length(unique(label)))
 ```
 
-
-```text:Output
+```TextOutput
   CLASSIX runtime: 0.550 seconds - classes: 7
 ```
 
-
-```matlab:Code
+```matlab
 explain()
 ```
 
-
-```text:Output
+```TextOutput
 A clustering of 2028780 data points with 2 features was performed.
 The radius parameter was set to 0.40 and MinPts was set to 6.
 As the provided data was auto-scaled by a factor of 1/0.92,
@@ -208,16 +163,12 @@ use explain(ind1) or explain(ind1,ind2) with indices of points.
 Too many data points for plot. Randomly subsampled 1e5 points.
 ```
 
-
-![figure_3.png](README_media/figure_3.png)
-
+<center><img src="img\README_media/figure_3.png" width="578" alt="figure_3.png"></center>
 
 
 Let us compare to DBSCAN. In order to run DBSCAN in reasonable time, we downsample to 5% of the data. The hyperparameters are chosen to approximately match the clustering results of CLASSIX.
 
-
-
-```matlab:Code
+```matlab
 %% MATLAB DBSCAN
 %  We cluster only 5% of the data.
 tic
@@ -226,19 +177,14 @@ fprintf('  DBSCAN   runtime: %6.3f seconds - classes: %d\n',...
     toc,length(unique(idx)))
 ```
 
-
-```text:Output
+```TextOutput
   DBSCAN   runtime:  7.716 seconds - classes: 5
 ```
-
 # Scaling test: CLASSIX vs DBSCAN
 
+Running DBSCAN on all 2 million data points of the <samp>vdu_signals</samp> dataset is not feasible. Let's see how the runtimes of CLASSIX and DBSCAN scale as the number of data points increases. The plot below shows that, over a range of data sizes from 10k to 100k, CLASSIX's runtime remains in the order of milliseconds, while DBSCAN's runtime grows approximately quadratically until it requires several seconds. The extrapolated DBSCAN runtime on the full dataset with all 2 million points would be about 45 minutes. (Timings on MATLAB Online. The precise numbers depend on the machine.)
 
-Running DBSCAN on all 2 million data points of the `vdu_signals` dataset is not feasible. Let's see how the runtimes of CLASSIX and DBSCAN scale as the number of data points increases. The plot below shows that, over a range of data sizes from 10k to 100k, CLASSIX's runtime remains in the order of milliseconds, while DBSCAN's runtime grows approximately quadratically until it requires several seconds. The extrapolated DBSCAN runtime on the full dataset with all 2 million points would be about 45 minutes. (Timings on MATLAB Online. The precise numbers depend on the machine.)
-
-
-
-```matlab:Code
+```matlab
 npts = 10000:10000:100000;
 t_classix = []; t_dbscan = [];
 for j = 1:length(npts)
@@ -253,8 +199,7 @@ for j = 1:length(npts)
 end
 ```
 
-
-```text:Output
+```TextOutput
 # of data points: 9994
   CLASSIX runtime:  0.007 seconds - classes: 4
   DBSCAN  runtime:  0.204 seconds - classes: 5
@@ -287,8 +232,7 @@ end
   DBSCAN  runtime:  8.030 seconds - classes: 5
 ```
 
-
-```matlab:Code
+```matlab
 figure
 plot(npts,t_classix,'-o','LineWidth',2), hold on
 plot(npts,t_dbscan,'--s','LineWidth',2)
@@ -299,54 +243,37 @@ xlabel('number data points'); ylabel('runtime in seconds');
 title('CLASSIX vs DBSCAN runtime')
 ```
 
+<center><img src="img\README_media/figure_4.png" width="578" alt="figure_4.png"></center>
 
-![figure_4.png](README_media/figure_4.png)
 
-
-```matlab:Code
+```matlab
 fprintf('Extrapolated DBSCAN runtime for all %d datapoints: %3.1f minutes.',size(data,1),polyval(p,size(data,1))/60)
 ```
 
-
-```text:Output
+```TextOutput
 Extrapolated DBSCAN runtime for all 2028780 datapoints: 46.3 minutes.
 ```
-
 # Learn more about CLASSIX?
-
 
 CLASSIX is a fast and memory-efficient clustering algorithm which produces explainable results. If you'd like to learn more about CLASSIX, here are a couple of online resources:
 
+-  arXiv paper: [Fast and explainable clustering based on sorting (arxiv.org)](https://arxiv.org/abs/2202.01456) 
+-  Python code: [Fast and explainable clustering based on sorting (github.com)](https://github.com/nla-group/classix) 
+-  YouTube video: [CLASSIX - Fast and explainable clustering based on sorting - YouTube](https://www.youtube.com/watch?v=K94zgRjFEYo) 
 
-
-   -  arXiv paper: [Fast and explainable clustering based on sorting (arxiv.org)](https://arxiv.org/abs/2202.01456) 
-   -  Python code: [Fast and explainable clustering based on sorting (github.com)](https://github.com/nla-group/classix) 
-   -  YouTube video: [CLASSIX - Fast and explainable clustering based on sorting - YouTube](https://www.youtube.com/watch?v=K94zgRjFEYo) 
-
-
-
-This documentation has been generated from the MATLAB live script `README.mlx`. You can try this link to open it in MATLAB Online and explore CLASSIX interactively: [https://matlab.mathworks.com/open/github/v1?repo=nla-group/classix-matlab\&file=README.mlx](https://matlab.mathworks.com/open/github/v1?repo=nla-group/classix-matlab&file=README.mlx) 
-
+This documentation has been generated from the MATLAB live script <samp>README.mlx</samp>. You can try this link to open it in MATLAB Online and explore CLASSIX interactively: [https://matlab.mathworks.com/open/github/v1?repo=nla-group/classix-matlab&file=README.mlx](https://matlab.mathworks.com/open/github/v1?repo=nla-group/classix-matlab&file=README.mlx) 
 
 # Contributors
 
-
-This CLASSIX implementation is maintained by Xinye Chen (Charles University Prague), Mike Croucher (MathWorks), and Stefan Güttel (University of Manchester). If you find CLASSIX useful in your work, please consider citing our paper [1]. If you have any problems or questions, just drop us an email: `stefan.guettel@manchester.ac.uk`
-
+This CLASSIX implementation is maintained by Xinye Chen (Charles University Prague), Mike Croucher (MathWorks), and Stefan Güttel (University of Manchester). If you find CLASSIX useful in your work, please consider citing our paper [1]. If you have any problems or questions, just drop us an email: <samp>stefan.guettel@manchester.ac.uk</samp>
 
 # References
 
-
 [1] C. Chen and S. Güttel. "Fast and explainable clustering based on sorting." arXiv: [https://arxiv.org/abs/2202.01456](https://arxiv.org/abs/2202.01456), 2022.
-
-
 
 
 [2] D. Dua and C. Graff. "UCI machine learning repository." URL: [http://archive.ics.uci.edu/ml](http://archive.ics.uci.edu/ml), 2017.
 
 
-
-
 [3] M. Ester, H.-P. Kriegel, J. Sander, and X. Xiaowei. "A density-based algorithm for discovering clusters in large spatial databases with noise." In *Proceedings of the Second International Conference on Knowledge Discovery in Databases and Data Mining*, pages 226-231, 1996.
-
 
