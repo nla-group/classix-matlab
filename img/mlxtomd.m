@@ -1,0 +1,31 @@
+
+fn = 'README';
+mlx = [ fn '.mlx' ];
+md = [ fn '.md' ];
+
+mdfile = export(mlx,Format="markdown",EmbedImages=0);
+
+pause(2)
+
+fld0 = [ fn '_media' ];
+fld1 = [ 'img\' fld0 ];
+
+try
+    system(['rmdir ' fld1 ' /s /q']);
+catch
+end
+copyfile(fld0,fld1); % copy media folder into img
+try
+    system(['rmdir ' fld0 ' /s /q']);
+catch
+end
+
+%%
+
+fid = fopen(md,'r');
+f = fread(fid,'*char')';
+fclose(fid);
+f = strrep(f,fld0,fld1);
+fid = fopen(md,'w');
+fprintf(fid,'%s',f);
+fclose(fid);
