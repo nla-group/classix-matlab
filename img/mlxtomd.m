@@ -25,6 +25,7 @@ end
 fid = fopen(md,'r');
 f = fread(fid,'*char')';
 fclose(fid);
+fld1 = strrep(fld1,'\','/'); % needed for Matlab FileExc link
 f = strrep(f,fld0,fld1);
 fid = fopen(md,'w');
 fprintf(fid,'%s',f);
