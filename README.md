@@ -1,23 +1,18 @@
-# A CLASSIX implementation for MATLAB
+# CLASSIX: Fast and explainable clustering in MATLAB
 
 
-CLASSIX is a fast and memory-efficient clustering method which provides textual and visual explanations of its clustering results [1]. In contrast to clustering methods like DBSCAN, CLASSIX does not use any tree-based data structures to perform nearest-neighbor searches (its memory requirement grows essentially linearly in the number of data points). In contrast to the popular k-means algorithm, which is tailored to spherical clusters, CLASSIX can detect clusters of arbitrary shape. 
+CLASSIX is a fast and memory-efficient clustering method which provides textual and visual explanations of its clustering results. In contrast to clustering methods like DBSCAN, CLASSIX does not use any tree-based data structures to perform nearest-neighbor searches. In contrast to the popular k-means algorithm, which is tailored to spherical clusters, CLASSIX can detect clusters of arbitrary shape. 
 
 
 # Basic usage
 
 
-The MATLAB file `classix.m` fully implements all essential CLASSIX features available in the Python implementation. And using it is very straightforward. CLASSIX accepts three essential input parameters: `data, radius, minPts` (optionally). The data points to be clustered are provided as the rows of the matrix `data`, that is, `data` is of size [number of data points]-by-[number of features]. 
+CLASSIX accepts three essential input parameters: `data, radius, minPts` (optional). The data points to be clustered are provided as the rows of the matrix `data`. The `radius` parameter controls the *coarseness* of the clusters. Larger `radius` leads to larger clusters. We usually recommend starting with a value like `radius=1`, and then subsequently reducing it until the number of clusters is just a little larger than expected. The `minPts` parameter (default 1) can then be used to get rid of tiny clusters with fewer than `minPts` points. 
 
 
 
 
-The `radius` parameter controls the *coarseness* of the clusters. The higher it is, larger the clusters will be. We usually recommend starting with a value like `radius=1`, and then subsequently reducing it until the number of clusters is just a little larger than expected. The second `minPts` parameter (default 1) can then be used to get rid of tiny clusters with fewer than `minPts` points. 
-
-
-
-
-Let's demonstrate CLASSIX on an artificial dataset comprised of two Gaussian blobs in 2D. In the below test we choose `radius=0.2` and `minPts=10`.
+Let's demonstrate CLASSIX on an artificial dataset comprised of two Gaussian blobs. In the below test we choose `radius=0.2` and `minPts=10`.
 
 
 
@@ -39,12 +34,12 @@ toc
 
 
 ```text:Output
-Elapsed time is 0.074340 seconds.
+Elapsed time is 0.061989 seconds.
 ```
 
 
 
-`classix.m` has three output parameters: `label, explain, out`. The first one, the vector `label`, contains the cluster label of each data point. We can use it to produce a scatter plot via `scatter(data(:,1),data(:,2),20,label,"filled")`. But we actually don't have to do that manually: the `explain` function provides us with a textual summary of the performed clustering, and conveniently produces a scatter plot as well:
+`classix.m` has three output parameters: `label, explain, out`. The first one, the vector `label`, contains the cluster label of each data point. We can use it to produce a scatter plot via `scatter(data(:,1),data(:,2),20,label)`. But we actually don't have to do that manually: the `explain` function provides us with a textual summary of the performed clustering, and conveniently produces a scatter plot as well:
 
 
 
@@ -71,7 +66,7 @@ use explain(ind1) or explain(ind1,ind2) with indices of points.
 # The explain() function
 
 
-When called with one or two input arguments, the `explain()` function justifies why data points ended up in the same cluster, or not. For example, let's find out why data points 100 and 800 ended up in the same cluster:
+When called with one or two input arguments, the `explain()` function justifies why data points ended up in the same cluster, or not. Let's find out why data points 100 and 800 ended up in the same cluster:
 
 
 
@@ -120,50 +115,6 @@ There is no path of overlapping groups between 6 and 72.
 
 ![figure_2.png](README_media/figure_2.png)
 
-# An experimental option
-
-
-We have added a new experimental option to `classix.m`, namely a fourth input parameter called `merge_tiny_groups`. This parameter is `true` by default, resulting in the original CLASSIX method [1]. But when it is set to `false`, tiny groups with fewer than `minPts` points will be ignored in the merging phase and become stand-alone clusters first, before they are subsequently merged into a nearest bigger cluster. (That's different from the usual `minPts` criterion which applies to the size of clusters, not the size of individual groups.) This option can sometimes overcome 'creeping' between small groups, whereby clusters get merged simply because they are touched by low density groups. This allows us to cluster Gaussian blobs even when they are visibly intersecting.
-
-
-
-```matlab:Code
-rng('default')                   
-r1 = mvnrnd(mu1,sigma1,1e5);   % Much larger number of data points!
-r2 = mvnrnd(mu2,sigma2,1e5);
-data = [r1; r2];
-tic;
-[label, explain, out] = classix(data, 0.1, 50, 0);  % note the final 0 param
-toc
-```
-
-
-```text:Output
-Elapsed time is 0.182897 seconds.
-```
-
-
-```matlab:Code
-explain()
-```
-
-
-```text:Output
-A clustering of 200000 data points with 2 features was performed.
-The radius parameter was set to 0.10 and MinPts was set to 50.
-As the provided data was auto-scaled by a factor of 1/4.05,
-points within a radius R=0.10*4.05=0.41 were grouped together.
-In total, 3664460 distances were computed (18.3 per data point).
-This resulted in 635 groups, each with a unique starting point.
-These 635 groups were subsequently merged into 2 clusters.
-In order to explain the clustering of individual data points,
-use explain(ind1) or explain(ind1,ind2) with indices of points.
-Too many data points for plot. Randomly subsampled 1e5 points.
-```
-
-
-![figure_3.png](README_media/figure_3.png)
-
 # Is `classix.m` fast?
 
 
@@ -186,7 +137,7 @@ fprintf('  CLASSIX.m runtime: %5.3f seconds - classes: %d - ARI: %3.2f\n',...
 
 
 ```text:Output
-  CLASSIX.m runtime: 1.259 seconds - classes: 4 - ARI: 0.76
+  CLASSIX.m runtime: 1.253 seconds - classes: 4 - ARI: 0.76
 ```
 
 
@@ -205,7 +156,7 @@ fprintf('  DBSCAN   runtime: %5.3f seconds - classes: %d - ARI: %3.2f\n',...
 
 
 ```text:Output
-  DBSCAN   runtime: 0.394 seconds - classes: 5 - ARI: 0.51
+  DBSCAN   runtime: 0.358 seconds - classes: 5 - ARI: 0.51
 ```
 
 
@@ -235,7 +186,7 @@ fprintf('  CLASSIX runtime: %5.3f seconds - classes: %d\n',...
 
 
 ```text:Output
-  CLASSIX runtime: 0.495 seconds - classes: 7
+  CLASSIX runtime: 0.550 seconds - classes: 7
 ```
 
 
@@ -258,7 +209,7 @@ Too many data points for plot. Randomly subsampled 1e5 points.
 ```
 
 
-![figure_4.png](README_media/figure_4.png)
+![figure_3.png](README_media/figure_3.png)
 
 
 
@@ -277,7 +228,7 @@ fprintf('  DBSCAN   runtime: %6.3f seconds - classes: %d\n',...
 
 
 ```text:Output
-  DBSCAN   runtime:  8.208 seconds - classes: 5
+  DBSCAN   runtime:  7.716 seconds - classes: 5
 ```
 
 # Scaling test: CLASSIX vs DBSCAN
@@ -305,35 +256,35 @@ end
 
 ```text:Output
 # of data points: 9994
-  CLASSIX runtime:  0.006 seconds - classes: 4
-  DBSCAN  runtime:  0.190 seconds - classes: 5
+  CLASSIX runtime:  0.007 seconds - classes: 4
+  DBSCAN  runtime:  0.204 seconds - classes: 5
 # of data points: 20087
   CLASSIX runtime:  0.010 seconds - classes: 4
-  DBSCAN  runtime:  0.505 seconds - classes: 4
+  DBSCAN  runtime:  0.470 seconds - classes: 4
 # of data points: 29835
-  CLASSIX runtime:  0.013 seconds - classes: 4
-  DBSCAN  runtime:  0.917 seconds - classes: 5
+  CLASSIX runtime:  0.015 seconds - classes: 4
+  DBSCAN  runtime:  0.894 seconds - classes: 5
 # of data points: 39780
   CLASSIX runtime:  0.016 seconds - classes: 5
-  DBSCAN  runtime:  1.508 seconds - classes: 6
+  DBSCAN  runtime:  1.567 seconds - classes: 6
 # of data points: 49483
-  CLASSIX runtime:  0.022 seconds - classes: 7
-  DBSCAN  runtime:  2.084 seconds - classes: 5
+  CLASSIX runtime:  0.018 seconds - classes: 7
+  DBSCAN  runtime:  2.138 seconds - classes: 5
 # of data points: 59670
-  CLASSIX runtime:  0.022 seconds - classes: 5
-  DBSCAN  runtime:  2.834 seconds - classes: 5
+  CLASSIX runtime:  0.023 seconds - classes: 5
+  DBSCAN  runtime:  3.067 seconds - classes: 5
 # of data points: 69958
   CLASSIX runtime:  0.023 seconds - classes: 6
-  DBSCAN  runtime:  3.682 seconds - classes: 7
+  DBSCAN  runtime:  4.223 seconds - classes: 7
 # of data points: 81152
   CLASSIX runtime:  0.024 seconds - classes: 7
-  DBSCAN  runtime:  4.768 seconds - classes: 6
+  DBSCAN  runtime:  5.348 seconds - classes: 6
 # of data points: 88208
-  CLASSIX runtime:  0.028 seconds - classes: 9
-  DBSCAN  runtime:  5.746 seconds - classes: 6
+  CLASSIX runtime:  0.029 seconds - classes: 9
+  DBSCAN  runtime:  6.484 seconds - classes: 6
 # of data points: 101439
-  CLASSIX runtime:  0.026 seconds - classes: 8
-  DBSCAN  runtime:  7.525 seconds - classes: 5
+  CLASSIX runtime:  0.031 seconds - classes: 8
+  DBSCAN  runtime:  8.030 seconds - classes: 5
 ```
 
 
@@ -349,7 +300,7 @@ title('CLASSIX vs DBSCAN runtime')
 ```
 
 
-![figure_5.png](README_media/figure_5.png)
+![figure_4.png](README_media/figure_4.png)
 
 
 ```matlab:Code
@@ -358,7 +309,7 @@ fprintf('Extrapolated DBSCAN runtime for all %d datapoints: %3.1f minutes.',size
 
 
 ```text:Output
-Extrapolated DBSCAN runtime for all 2028780 datapoints: 44.3 minutes.
+Extrapolated DBSCAN runtime for all 2028780 datapoints: 46.3 minutes.
 ```
 
 # Learn more about CLASSIX?
@@ -380,7 +331,7 @@ This documentation has been generated from the MATLAB live script `README.mlx`. 
 # Contributors
 
 
-This MATLAB CLASSIX implementation is maintained by Xinye Chen (Charles University Prague), Mike Croucher (MathWorks), and Stefan Güttel (University of Manchester). If you find CLASSIX useful in your work, please consider citing the below reference [1]. If you have any problems or questions, just drop us an email to `stefan.guettel@manchester.ac.uk`.
+This CLASSIX implementation is maintained by Xinye Chen (Charles University Prague), Mike Croucher (MathWorks), and Stefan Güttel (University of Manchester). If you find CLASSIX useful in your work, please consider citing our paper [1]. If you have any problems or questions, just drop us an email: `stefan.guettel@manchester.ac.uk`
 
 
 # References

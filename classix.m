@@ -1,15 +1,17 @@
-function [label, explain, out] = classix(x, r, minPts, merge_tiny_groups)
+function [label, explain, out] = classix(x, r, minPts, opts)
 % CLASSIX - Fast and explainable clustering based on sorting.
+%   [label, explain, out] = classix(x, r, minPts, opts)
 %
-% inputs   * data matrix (each row is a data point)
+% inputs   * data matrix x (each row is a data point)
 %          * radius parameter r
 %          * minPts parameter (default 1)
-%          * whether to ignore tiny groups in merging phase (default 1)
+%          * opts structure with fields
+%                 .merge_tiny_groups - Boolean default 1
+%                 .use_mex - Boolean default 1
 %
 % returns  * cluster labels of the data
 %          * function handle to explain functionality
-%          * opts structure with 
-%
+%          * out structure with fields
 %                .cs    -  cluster size (#points in each cluster)
 %                .dist  -  #distance computations during aggregation
 %                .sp    -  starting point indices 
@@ -17,7 +19,6 @@ function [label, explain, out] = classix(x, r, minPts, merge_tiny_groups)
 %                .t1... -  timings of each of CLASSIX's steps in s
 %
 % This is a MATLAB implementation of the CLASSIX clustering algorithm:
-%
 % X. Chen & S. Güttel. Fast and explainable clustering based on sorting. 
 % Technical Report arXiv:2202.01456, arXiv, 2022. 
 % https://arxiv.org/abs/2202.01456
@@ -32,7 +33,17 @@ function [label, explain, out] = classix(x, r, minPts, merge_tiny_groups)
 t = tic;
 
 if nargin < 4
+    opts = struct();
+end
+if isfield(opts,'merge_tiny_groups')
+    merge_tiny_groups = opts.merge_tiny_groups;
+else
     merge_tiny_groups = 1; % merge groups with < minPts points
+end
+if isfield(opts,'use_mex')
+    use_mex = opts.use_mex;
+else
+    use_mex = 1;
 end
 if nargin < 3
     minPts = 1;
@@ -45,14 +56,16 @@ if size(x,2) > 5000
     warning('More than 5000 features. Consider applying some dimension reducation first.');
 end
 
-try
-    matxsubmat(1,1,1,1);
-    mex_matxsubmat = 1;  % use matxsubmat MEX file
-catch
-    mex_matxsubmat = 0; 
-    disp('matxsubmat MEX file not found.')
-    disp('Consider compiling matxsubmat.c:')
-    disp('mex matxsubmat.c -lmwblas')
+if use_mex
+    try
+        matxsubmat(1,1,1,1);
+        use_mex = 1;  % use matxsubmat MEX file
+    catch
+        use_mex = 0; 
+        disp('MEX file not found. Consider compiling matxsubmat.c via ')
+        disp('mex matxsubmat.c -lmwblas')
+        disp('or remove this warning with opts.use_mex=0.')
+    end
 end
 
 x = x';    % transpose. much faster when data points are stored column-wise
@@ -117,7 +130,7 @@ while i < n
     rhs = half_r2 - half_nrm2(i); % right-hand side of norm ineq.
     
     last_j = n;
-    if mex_matxsubmat
+    if use_mex
         % precomp inner prodcts in SNN style
         % we need ips = xi'*x(:,i+1:last_j)
         last_j = find(u <= r + ui, 1, 'last'); % TODO: could exploit that u is sorted (binary search)
@@ -133,7 +146,7 @@ while i < n
             continue
         end
 
-        if mex_matxsubmat
+        if use_mex
             ip = ips(j-i);
         else
             if u(j) > r + ui % early termination (uj - ui > r)
@@ -172,7 +185,7 @@ for i = 1:length(sp)
     rhs = (1.5*r)^2/2 - sp_half_nrm2(i);  % rhs of norm ineq.
 
     % get id = (vecnorm(xi - sp_x) <= 1.5*r); and igore id's < i
-    if mex_matxsubmat
+    if use_mex
         last_j = find(sp_u - sp_u(i) <= 1.5*r, 1, 'last'); % TODO: could exploit that u is sorted (binary search)
         ips = matxsubmat(xi',sp_x,i,last_j);
         ips = [ zeros(1,i-1) , ips , zeros(1,size(sp_x,2)-last_j) ];
