@@ -7,7 +7,7 @@ One of the experiments in the CLASSIX paper [1], compares several clustering alg
 Let's recreate the column "CLASSIX (distance)" in Table 2 of [1]. Instead of using Python, we'll use the MATLAB implementation of CLASSIX.
 
 
-<img src="img\URI_machine_learning_benchmark_media/image_0.png" width="661" alt="image_0.png">
+<img src="img/URI_machine_learning_benchmark_media/image_0.png" width="661" alt="image_0.png">
 
 
 First, we create a function handle to compute the adjusted RAND index (ARI).

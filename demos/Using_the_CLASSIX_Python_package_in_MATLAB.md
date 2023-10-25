@@ -56,7 +56,7 @@ X = [r1; r2];
 plot(X(:,1),X(:,2),"*",MarkerSize=5);
 ```
 
-<center><img src="img\Using_the_CLASSIX_Python_package_in_MATLAB_media/figure_0.png" width="562" alt="figure_0.png"></center>
+<center><img src="img/Using_the_CLASSIX_Python_package_in_MATLAB_media/figure_0.png" width="562" alt="figure_0.png"></center>
 
 
 Calling CLASSIX is straightforward. We don't even need to convert the MATLAB array <samp>X</samp> to a Numpy array as it's all done automatically.
@@ -127,7 +127,7 @@ but no conversion is required when using this in the MATLAB <samp>scatter</samp>
 scatter(X(:,1),X(:,2),10,clx.labels_,"filled");
 ```
 
-<center><img src="img\Using_the_CLASSIX_Python_package_in_MATLAB_media/figure_1.png" width="562" alt="figure_1.png"></center>
+<center><img src="img/Using_the_CLASSIX_Python_package_in_MATLAB_media/figure_1.png" width="562" alt="figure_1.png"></center>
 
 # More complex use cases and data conversion notes
 
@@ -151,7 +151,7 @@ clx.fit(X);
 scatter(X(:,1),X(:,2),10,clx.labels_,"filled");
 ```
 
-<center><img src="img\Using_the_CLASSIX_Python_package_in_MATLAB_media/figure_2.png" width="562" alt="figure_2.png"></center>
+<center><img src="img/Using_the_CLASSIX_Python_package_in_MATLAB_media/figure_2.png" width="562" alt="figure_2.png"></center>
 
 
 Now, it looks like we have 2 clusters. The CLASSIX <samp>explain()</samp> method confirms this:
@@ -281,7 +281,7 @@ use .explain(ind1) or .explain(ind1, ind2) with indices of the data points.
 
 The plot opens in a separate window and is not available inline in the live script. Here is the plot saved from the time I ran it on my machine:
 
-<p style="text-align:left"><img src="img\Using_the_CLASSIX_Python_package_in_MATLAB_media/image_0.png" width="860" alt="image_0.png"></p>
+<p style="text-align:left"><img src="img/Using_the_CLASSIX_Python_package_in_MATLAB_media/image_0.png" width="860" alt="image_0.png"></p>
 
 
 Note how CLASSIX has identified 28 special data points labelled with numbers <samp>0,1,...,27</samp> in the above data plot. These special data points, called **starting points,** are all farther than <samp>radius</samp> apart from each other in the Euclidean norm (after some scaling of the data to make the results scaling invariant). Data points in the neighborhood of a starting point form what is called a  **group.** Each **cluster** is made up of one or more groups. 
@@ -308,7 +308,7 @@ These two groups are connected via groups 5 <-> 8 <-> 11.
 connected_paths: [5, 8, 11]
 ```
 
-<p style="text-align:left"><img src="img\Using_the_CLASSIX_Python_package_in_MATLAB_media/image_1.png" width="537" alt="image_1.png"></p>
+<p style="text-align:left"><img src="img/Using_the_CLASSIX_Python_package_in_MATLAB_media/image_1.png" width="537" alt="image_1.png"></p>
 
 
 CLASSIX explains that data point 1 is in group 5, and data point 90 is in group 11, and there is a path via group 8 between these groups. In other words, we can go from data point 1 to 90 with two steps of length at most \texttt{1.5*radius} without leaving cluster 1. This is also shown visually in the above plot, with the groups 5, 8, and 11 highlighted by the green circles (the other groups are shown as red circles).
@@ -336,7 +336,7 @@ title(sprintf("CLASSIX found %d clusters",max(clx.labels_)+1))
 hold off
 ```
 
-<center><img src="img\Using_the_CLASSIX_Python_package_in_MATLAB_media/figure_3.png" width="562" alt="figure_3.png"></center>
+<center><img src="img/Using_the_CLASSIX_Python_package_in_MATLAB_media/figure_3.png" width="562" alt="figure_3.png"></center>
 
 # What is CLASSIX?
 

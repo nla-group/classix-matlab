@@ -33,7 +33,7 @@ use explain(ind1) or explain(ind1,ind2) with indices of points.
 Too many data points for plot. Randomly subsampled 1e5 points.
 ```
 
-<center><img src="img\Dealing_with_tightly_packed_clusters_media/figure_0.png" width="578" alt="figure_0.png"></center>
+<center><img src="img/Dealing_with_tightly_packed_clusters_media/figure_0.png" width="578" alt="figure_0.png"></center>
 
 
 The data points between the two ground truth clusters are so close that even a small <samp>radius</samp> like 0.1 merges them together. Note also that we get 11 unwanted clusters with a small number of points. We could easily remove them by increasing <samp>minPts</samp>, but the two main clusters would still remain merged. Let's try a smaller radius.
@@ -56,7 +56,7 @@ use explain(ind1) or explain(ind1,ind2) with indices of points.
 Too many data points for plot. Randomly subsampled 1e5 points.
 ```
 
-<center><img src="img\Dealing_with_tightly_packed_clusters_media/figure_1.png" width="578" alt="figure_1.png"></center>
+<center><img src="img/Dealing_with_tightly_packed_clusters_media/figure_1.png" width="578" alt="figure_1.png"></center>
 
 
 Now the two ground truth clusters are mainly separated but we have a huge number of 680 unwanted clusters. We can find out about their cluster sizes by looking at <samp>out.cs</samp>:
@@ -104,7 +104,7 @@ use explain(ind1) or explain(ind1,ind2) with indices of points.
 Too many data points for plot. Randomly subsampled 1e5 points.
 ```
 
-<center><img src="img\Dealing_with_tightly_packed_clusters_media/figure_2.png" width="578" alt="figure_2.png"></center>
+<center><img src="img/Dealing_with_tightly_packed_clusters_media/figure_2.png" width="578" alt="figure_2.png"></center>
 
 
 This looks fairly good and is similar to what we could obtain by running k-means on that dataset. The adjusted Rand index confirms that we have succeeded in almost perfectly recovering the ground truth clusters:
@@ -148,7 +148,7 @@ use explain(ind1) or explain(ind1,ind2) with indices of points.
 Too many data points for plot. Randomly subsampled 1e5 points.
 ```
 
-<center><img src="img\Dealing_with_tightly_packed_clusters_media/figure_3.png" width="578" alt="figure_3.png"></center>
+<center><img src="img/Dealing_with_tightly_packed_clusters_media/figure_3.png" width="578" alt="figure_3.png"></center>
 
 
 ```matlab

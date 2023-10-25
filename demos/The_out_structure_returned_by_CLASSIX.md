@@ -94,7 +94,7 @@ A path of overlapping groups with step size <= 1.5*R = 0.53 is:
  group circles in the plot may appear bigger than they are.)
 ```
 
-<center><img src="img\The_out_structure_returned_by_CLASSIX_media/figure_0.png" width="562" alt="figure_0.png"></center>
+<center><img src="img/The_out_structure_returned_by_CLASSIX_media/figure_0.png" width="562" alt="figure_0.png"></center>
 
 
 We see that data point 800 (say, <samp>p1</samp>) is in group 154. Let's get the corresponding group center and calculate the distance between the two points.
