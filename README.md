@@ -48,7 +48,7 @@ In order to explain the clustering of individual data points,
 use explain(ind1) or explain(ind1,ind2) with indices of points.
 ```
 
-<center><img src="img\README_media/figure_0.png" width="578" alt="figure_0.png"></center>
+<center><img src="img/README_media/figure_0.png" width="578" alt="figure_0.png"></center>
 
 # The explain() function
 
@@ -65,7 +65,7 @@ A path of overlapping groups with step size <= 1.5*R = 1.21 is:
  49 -> 44 -> 38 -> 29 -> 18 -> 12 -> 7 -> 6
 ```
 
-<center><img src="img\README_media/figure_1.png" width="578" alt="figure_1.png"></center>
+<center><img src="img/README_media/figure_1.png" width="578" alt="figure_1.png"></center>
 
 
 See how CLASSIX has highlighted the two data points 100 and 800 as magenta crosses (<samp>x</samp>) in the blue cluster (cluster #1). Each of these data points falls into a group (group number 49 and 6, respectively) and the group centers are shown as black pluses (<samp>+</samp>),with the green and cyan circles indicating the group radius. The size of the groups is controlled by CLASSIX's <samp>radius</samp> parameter, and two groups are considered as overlapping when their group centers are less than \texttt{1.5*R} apart. Overlapping groups are merged into clusters.
@@ -86,7 +86,7 @@ Data point 1800 is in group 72, which was merged into cluster #2.
 There is no path of overlapping groups between 6 and 72.
 ```
 
-<center><img src="img\README_media/figure_2.png" width="578" alt="figure_2.png"></center>
+<center><img src="img/README_media/figure_2.png" width="578" alt="figure_2.png"></center>
 
 # Is <samp>classix.m</samp> fast?
 
@@ -163,7 +163,7 @@ use explain(ind1) or explain(ind1,ind2) with indices of points.
 Too many data points for plot. Randomly subsampled 1e5 points.
 ```
 
-<center><img src="img\README_media/figure_3.png" width="578" alt="figure_3.png"></center>
+<center><img src="img/README_media/figure_3.png" width="578" alt="figure_3.png"></center>
 
 
 Let us compare to DBSCAN. In order to run DBSCAN in reasonable time, we downsample to 5% of the data. The hyperparameters are chosen to approximately match the clustering results of CLASSIX.
@@ -243,7 +243,7 @@ xlabel('number data points'); ylabel('runtime in seconds');
 title('CLASSIX vs DBSCAN runtime')
 ```
 
-<center><img src="img\README_media/figure_4.png" width="578" alt="figure_4.png"></center>
+<center><img src="img/README_media/figure_4.png" width="578" alt="figure_4.png"></center>
 
 
 ```matlab
