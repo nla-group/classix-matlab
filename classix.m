@@ -53,13 +53,13 @@ if size(x,1) < size(x,2)
     warning('Fewer data points than features. Check that each row corresponds to a data point.');
 end
 if size(x,2) > 5000
-    warning('More than 5000 features. Consider applying some dimension reducation first.');
+    warning('More than 5000 features. Consider applying some dimension reduction first.');
 end
 
 if use_mex
     try
         matxsubmat(1,1,1,1);
-        use_mex = 1;  % use matxsubmat MEX file
+        use_mex = 1;  % yes, use matxsubmat MEX file
     catch
         use_mex = 0; 
         disp('MEX file not found. Consider compiling matxsubmat.c via ')
@@ -96,7 +96,7 @@ end
 if size(U,2) == 1    % deal with 1-dim feature
     U(:,2) = 0;      % for the plotting
 end
-u = U(:,1);   % scores
+u = U(:,1);          % scores
 
 u = u*sign(-u(1));   % flip to enforce deterministic output
 [u,ind] = sort(u);
@@ -115,8 +115,8 @@ label = zeros(n,1);
 lab = 1;
 dist = 0;    % # distance comput.
 i = 0;
-sp = []; % indices of starting points (in sorted array)
-gs = []; % group size
+sp = [];     % indices of starting points (in sorted array)
+gs = [];     % group size
 while i < n
     i = i + 1;
     if label(i) > 0
@@ -136,7 +136,7 @@ while i < n
         last_j = find(u <= r + ui, 1, 'last'); % TODO: could exploit that u is sorted (binary search)
         ips = matxsubmat(xi',x,i+1,last_j);
         dist = dist + last_j - i;
-        % Note: the number of distance calculation can be
+        % Note: The number of distance calculation can be
         % slightly larger than without using mex because
         % we're not skipping any columns with label(j)>0.
     end
@@ -156,7 +156,7 @@ while i < n
             ip = xi'*x(:,j); % expensive
         end
 
-        if half_nrm2(j) - ip <= rhs   %if vecnorm(xi-xj) <= r
+        if half_nrm2(j) - ip <= rhs   % if vecnorm(xi-xj) <= r
             label(j) = lab;
             gs(end) = gs(end) + 1;
         end
@@ -164,7 +164,6 @@ while i < n
     lab = lab + 1;
 end
 group_label = label; % store original group labels
-
 out.t2_aggregate = toc(t);
 
 %% merging %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -203,7 +202,7 @@ for i = 1:length(sp)
     end
   
     spl = unique(sp_label(id)); % get all the affected starting point labels
-    % TODO: could speedup by exploiting sorting?
+    % TODO: could speedup unique by exploiting sorting?
 
     minlab = min(spl);
     for L = spl(:).'
@@ -229,20 +228,20 @@ out.t3_merge = toc(t);
 % for each cluster label.
 
 %% minPts %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-% now eliminate tiny clusters by reassigning each of the constituting groups
+% Now eliminate tiny clusters by reassigning each of the constituting groups
 % to the nearest group belonging to a cluster with at least minPts points. 
 % This means, we are potentially dissolving tiny clusters, reassigning groups 
 % to different clusters.
 
 t = tic;
 
-id = find(cs < minPts); % cluster labels with small number of total points
-copy_sp_label = sp_label;   % added by Xinye (sp_label's before reassignment of tiny groups)
+id = find(cs < minPts);   % cluster labels with small number of total points
+copy_sp_label = sp_label; % added by Xinye (sp_label's before reassignment of tiny groups)
 
 for i = id(:)'
     ii = find(copy_sp_label==i); % find all tiny groups with that label
     for iii = ii(:)'
-        xi = sp_x(:,iii);     % starting point of one tiny group
+        xi = sp_x(:,iii);        % starting point of one tiny group
         
         %d = sp_half_nrm2 - xi'*sp_x + sp_half_nrm2(iii); % half squared distance to all groups
         d = sp_half_nrm2 - xi'*sp_x;                      % don't need the constant term
@@ -277,7 +276,6 @@ group_label = group_label(J);
 
 % unsort starting points
 sp = ind(sp); 
-
 out.t4_minPts = toc(t);
 
 %% explain function %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -294,7 +292,7 @@ explain = @(varargin) explain_fun(varargin);
         args = varargin{1};
 
         if isempty(args) 
-            fprintf('A clustering of %d data points with %d features was performed.\n',size(x,2),size(x,1));
+            fprintf('CLASSIX clustered %d data points with %d features.\n',size(x,2),size(x,1));
             fprintf('The radius parameter was set to %3.2f and MinPts was set to %d.\n',r,minPts); 
             fprintf('As the provided data was auto-scaled by a factor of 1/%3.2f,\n',scl);
             fprintf('points within a radius R=%3.2f*%3.2f=%3.2f were grouped together.\n',r,scl,r*scl);
