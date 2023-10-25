@@ -1,5 +1,8 @@
 
 # <span style="color:rgb(213,80,0)">Using the CLASSIX Python package in MATLAB</span>
+
+While we recommend using the MATLAB implementation of CLASSIX when working in MATLAB, there might be good reasons to call the Python version. E.g. the Python version allows for density-based clustering which the MATLAB version doesn't, and it has seemless integration with pandas and other data sources. Here we demonstrate how to call the Python implementation from MATLAB.
+
 # MATLAB and Python versions
 
 When working with Python, it is suggested that you use the most recent version of MATLAB possible since the MATLAB-Python interoperability is improving quickly. Please refer to [Versions of Python Compatible with MATLAB Products by Release - MATLAB & Simulink (mathworks.com)](https://uk.mathworks.com/support/requirements/python-compatibility.html) to find out which Python versions are supported by your current MATLAB version. The best place to download a Python installation is [Download Python | Python.org](https://www.python.org/downloads/). Note that Python installations that come with the Anaconda or other distributions might not be fully supported.
@@ -18,10 +21,8 @@ pe =
        Executable: "C:\Program Files\Python311\python.exe"
           Library: "C:\Program Files\Python311\python311.dll"
              Home: "C:\Program Files\Python311"
-           Status: Loaded
+           Status: NotLoaded
     ExecutionMode: InProcess
-        ProcessID: "23976"
-      ProcessName: "MATLAB"
 ```
 
 It is also possible to use a venv Python environment. To do this, comment out the line above and uncomment the line below, changing the path to point to the Python executable in the version of Python you want to run.
@@ -39,7 +40,7 @@ py.math.sqrt(42)
 ```TextOutput
 ans = 6.4807
 ```
-## Performing a basic clustering analysis on MATLAB data using CLASSIX
+# Performing a basic clustering analysis on MATLAB data using CLASSIX
 
 Let's start by generating and plotting some data using MATLAB.
 
@@ -58,7 +59,7 @@ plot(X(:,1),X(:,2),"*",MarkerSize=5);
 <center><img src="img\Using_the_CLASSIX_Python_package_in_MATLAB_media/figure_0.png" width="562" alt="figure_0.png"></center>
 
 
-Calling CLASSIX is straightforward. We don't even need to convert the MATLAB array X to a Numpy array as it's all done automatically.
+Calling CLASSIX is straightforward. We don't even need to convert the MATLAB array <samp>X</samp> to a Numpy array as it's all done automatically.
 
 ```matlab
 clx = py.classix.CLASSIX(radius=0.3, verbose=0);
@@ -71,7 +72,7 @@ A clustering of 200 data points with 2 features has been performed.
 The radius parameter was set to 0.30 and MinPts was set to 0. 
 As the provided data has been scaled by a factor of 1/4.03,
 data points within a radius of R=0.30*4.03=1.21 were aggregated into groups. 
-In total 401 comparisons were required (2.00 comparisons per data point). 
+In total 548 comparisons were required (2.74 comparisons per data point). 
 This resulted in 28 groups, each uniquely associated with a starting point. 
 These 28 groups were subsequently merged into 4 clusters. 
 A list of all starting points is shown below.
@@ -120,7 +121,7 @@ class(clx.labels_)
 ans = 'py.numpy.ndarray'
 ```
 
-but no conversion is required when using this in the MATLAB scatter command:
+but no conversion is required when using this in the MATLAB <samp>scatter</samp> command:
 
 ```matlab
 scatter(X(:,1),X(:,2),10,clx.labels_,"filled");
@@ -164,7 +165,7 @@ A clustering of 200 data points with 2 features has been performed.
 The radius parameter was set to 0.30 and MinPts was set to 10. 
 As the provided data has been scaled by a factor of 1/4.03,
 data points within a radius of R=0.30*4.03=1.21 were aggregated into groups. 
-In total 401 comparisons were required (2.00 comparisons per data point). 
+In total 548 comparisons were required (2.74 comparisons per data point). 
 This resulted in 28 groups, each uniquely associated with a starting point. 
 These 28 groups were subsequently merged into 2 clusters. 
 A list of all starting points is shown below.
@@ -221,8 +222,8 @@ Error in backend_bases>new_figure_manager_given_figure (line 3401)
 Error in backend_bases>new_figure_manager (line 3396)
 Error in pyplot>new_figure_manager (line 465)
 Error in pyplot>figure (line 934)
-Error in clustering>explain_viz (line 1459)
-Error in clustering>explain (line 968)
+Error in clustering>explain_viz (line 1463)
+Error in clustering>explain (line 970)
 ```
 
 This is explained on MATLAB Answers at [Why am I not able to call python Tkinter in MATLAB? - MATLAB Answers - MATLAB Central (mathworks.com)](https://uk.mathworks.com/matlabcentral/answers/808595-why-am-i-not-able-to-call-python-tkinter-in-matlab?s_tid=srchtitle). We need to provide paths to TCL.
@@ -239,7 +240,7 @@ A clustering of 200 data points with 2 features has been performed.
 The radius parameter was set to 0.30 and MinPts was set to 10. 
 As the provided data has been scaled by a factor of 1/4.03,
 data points within a radius of R=0.30*4.03=1.21 were aggregated into groups. 
-In total 401 comparisons were required (2.00 comparisons per data point). 
+In total 548 comparisons were required (2.74 comparisons per data point). 
 This resulted in 28 groups, each uniquely associated with a starting point. 
 These 28 groups were subsequently merged into 2 clusters. 
 A list of all starting points is shown below.
@@ -280,8 +281,7 @@ use .explain(ind1) or .explain(ind1, ind2) with indices of the data points.
 
 The plot opens in a separate window and is not available inline in the live script. Here is the plot saved from the time I ran it on my machine:
 
-
-<img src="img\Using_the_CLASSIX_Python_package_in_MATLAB_media/image_0.png" width="860" alt="image_0.png">
+<p style="text-align:left"><img src="img\Using_the_CLASSIX_Python_package_in_MATLAB_media/image_0.png" width="860" alt="image_0.png"></p>
 
 
 Note how CLASSIX has identified 28 special data points labelled with numbers <samp>0,1,...,27</samp> in the above data plot. These special data points, called **starting points,** are all farther than <samp>radius</samp> apart from each other in the Euclidean norm (after some scaling of the data to make the results scaling invariant). Data points in the neighborhood of a starting point form what is called a  **group.** Each **cluster** is made up of one or more groups. 
@@ -308,7 +308,7 @@ These two groups are connected via groups 5 <-> 8 <-> 11.
 connected_paths: [5, 8, 11]
 ```
 
-<img src="img\Using_the_CLASSIX_Python_package_in_MATLAB_media/image_1.png" width="537" alt="image_1.png">
+<p style="text-align:left"><img src="img\Using_the_CLASSIX_Python_package_in_MATLAB_media/image_1.png" width="537" alt="image_1.png"></p>
 
 
 CLASSIX explains that data point 1 is in group 5, and data point 90 is in group 11, and there is a path via group 8 between these groups. In other words, we can go from data point 1 to 90 with two steps of length at most \texttt{1.5*radius} without leaving cluster 1. This is also shown visually in the above plot, with the groups 5, 8, and 11 highlighted by the green circles (the other groups are shown as red circles).
@@ -346,5 +346,5 @@ CLASSIX is a fast and memory-efficient clustering algorithm which produces expla
 If you'd like to learn more about CLASSIX, here are a couple of online references:
 
 -  arXiv paper: [Fast and explainable clustering based on sorting (arxiv.org)](https://arxiv.org/abs/2202.01456) 
--  GitHub page: [Fast and explainable clustering based on sorting (github.com)](https://github.com/nla-group/classix) 
+-  Python code: [Fast and explainable clustering based on sorting (github.com)](https://github.com/nla-group/classix) 
 -  YouTube video: [CLASSIX - Fast and explainable clustering based on sorting - YouTube](https://www.youtube.com/watch?v=K94zgRjFEYo) 
