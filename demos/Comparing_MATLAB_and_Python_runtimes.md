@@ -11,6 +11,7 @@ Note that the below requires a working MATLAB-Python link.
 
 ```matlab
 clear all
+addpath ..
 %ari = @(a,b) py.sklearn.metrics.adjusted_rand_score(a,b);
 ari = @(a,b) rand_index(double(a),double(b),'adjusted');
 ```
