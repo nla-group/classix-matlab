@@ -1,16 +1,16 @@
 
 # <span style="color:rgb(213,80,0)">URI machine learning benchmark</span>
 
-One of the experiments in the CLASSIX paper [1], compares several clustering algorithms on the URI machine learning repository [2]. The Python code that generated these results, together with all the used hyperparameters, is available in the CLASSIX GitHub repository: [https://github.com/nla-group/classix/blob/master/exp/run_real_world.py](https://github.com/nla-group/classix/blob/master/exp/run_real_world.py) 
+One of the experiments in the CLASSIX paper [1] compares several clustering algorithms on the URI machine learning repository [2]. The Python code that generated these results, together with all the used hyperparameters, is available in the CLASSIX GitHub repository: [https://github.com/nla-group/classix/blob/master/exp/run_real_world.py](https://github.com/nla-group/classix/blob/master/exp/run_real_world.py) 
 
 
-Let's recreate the column "CLASSIX (distance)" in Table 2 of [1]. Instead of using Python, we'll use the MATLAB implementation of CLASSIX.
+Let's reproduce the column "CLASSIX (distance)" in Table 2 of [1]. Instead of using Python, we'll use the MATLAB implementation of CLASSIX.
 
 
 <img src="img/URI_machine_learning_benchmark_media/image_0.png" width="661" alt="image_0.png">
 
 
-First, we create a function handle to compute the adjusted RAND index (ARI).
+First, we create a function handle to compute the adjusted Rand index (ARI).
 
 ```matlab
 addpath ..

@@ -33,7 +33,7 @@ Let's have a look at these fields. First, we see five fields correponding to the
 -  **t1_prepare:** The initial data preparation, which mainly comprises data scaling and the computation of the first two principal axes. 
 -  **t2_aggregate:** This phase aggregates all data points into groups determined by the <samp>radius</samp> parameter of CLASSIX. 
 -  **t3_merge:** The computed groups will be merged into clusters when their group centers (so-called *starting points* ) are sufficiently close. 
--  **t4_minPts:** Clusters with fewer than <samp>minPts</samp> points will be dissolved into their groups, and each of the groups will then be reassigned to a nearest group of a large enough cluster. 
+-  **t4_minPts:** Clusters with fewer than <samp>minPts</samp> points will be dissolved into their groups, and each of the groups will then be reassigned to a large enough cluster. 
 -  **t5_finalize:** This is mainly cleanup, generating the <samp>out</samp> structure and the function handle to <samp>explain()</samp>. 
 
 Next up is the field <samp>out.cs</samp>, which stores the number of points in each cluster.
@@ -48,7 +48,7 @@ ans = 2x1
    615
 ```
 
-The field <samp>out.dist</samp> corresponds to the number of distance calculations between data points that have been performed in the aggregation phase where the groups are formed. We would like this number to be small. Usually, a larger <samp>radius</samp> parameter will lead to a smaller <samp>out.dist</samp>, but also coarser clusters. If CLASSIX's aggregation phase takes very long, this is usually reflected in a large number of distance calculations. Try increasing <samp>radius</samp> in this case.
+The field <samp>out.dist</samp> corresponds to the number of distance calculations between data points that have been performed in the aggregation phase. We would like this number to be small. Usually, a larger <samp>radius</samp> parameter will lead to a smaller <samp>out.dist</samp>, but also coarser clusters. If CLASSIX's aggregation phase takes very long, this is usually reflected in a large number of distance calculations. Try increasing <samp>radius</samp> in this case.
 
 ```matlab
 out.dist
@@ -137,7 +137,7 @@ out.scl
 ans = 1.6773
 ```
 
-This parameter is determined as follows. When CLASSIX is called, it will first mean-center all data points and then scale them, so that 50% of the data is within the unit ball. In code, this would be:
+This parameter is determined as follows. When CLASSIX is called, it will first mean-center all data points, and then scale them so that 50% of the data is within the unit ball. In code, this would be:
 
 ```matlab
 data = data - mean(data,1);
@@ -150,11 +150,11 @@ disp(scl)
 1.6773
 ```
 
-There are two reasons for this scaling: (i) it makes CLASSIX invariant to scaling and shifting of the data, and (ii) it makes choosing the radius parameter easier. As 50% of the data are in the unit ball, <samp>radius=1</samp> "roughly" corresponds to grouping the data into two groups. (This would be exactly the case if the center of the first group would be the origin, which usually isn't the case.)
+There are two reasons for this scaling: (i) it makes the clustering invariant to scaling and shifting of the data, and (ii) it makes choosing the radius parameter easier. As 50% of the data are in the unit ball, <samp>radius=1</samp> "roughly" corresponds to grouping the data into two groups. (This would be exactly the case if the center of the first group would be the origin, which usually isn't the case.)
 
 # Learn more about CLASSIX?
 
-CLASSIX is a fast and memory-efficient clustering algorithm which produces explainable results. If you'd like to learn more about CLASSIX, here are a couple of online resources:
+CLASSIX is a fast and memory-efficient clustering algorithm which produces explainable results. If you'd like to learn more, here are a couple of online resources:
 
 -  arXiv paper: [Fast and explainable clustering based on sorting (arxiv.org)](https://arxiv.org/abs/2202.01456) 
 -  Python code: [Fast and explainable clustering based on sorting (github.com)](https://github.com/nla-group/classix) 

@@ -1,7 +1,7 @@
 
 # <span style="color:rgb(213,80,0)">Using the CLASSIX Python package in MATLAB</span>
 
-While we recommend using the MATLAB implementation of CLASSIX when working in MATLAB, there might be good reasons to call the Python version. E.g. the Python version allows for density-based clustering which the MATLAB version doesn't, and it has seemless integration with pandas and other data sources. Here we demonstrate how to call the Python implementation from MATLAB.
+While we recommend using <samp>classix.m</samp> when working in MATLAB, there might be good reasons to call the Python implementation of CLASSIX ([https://github.com/nla-group/classix](https://github.com/nla-group/classix)). For example, the Python version allows for density-based clustering which the MATLAB version doesn't, and it has seemless integration with pandas and other data sources. Here we demonstrate how to call the Python implementation directly from MATLAB.
 
 # MATLAB and Python versions
 
@@ -21,8 +21,10 @@ pe =
        Executable: "C:\Program Files\Python311\python.exe"
           Library: "C:\Program Files\Python311\python311.dll"
              Home: "C:\Program Files\Python311"
-           Status: NotLoaded
+           Status: Loaded
     ExecutionMode: InProcess
+        ProcessID: "18456"
+      ProcessName: "MATLAB"
 ```
 
 It is also possible to use a venv Python environment. To do this, comment out the line above and uncomment the line below, changing the path to point to the Python executable in the version of Python you want to run.
@@ -124,7 +126,7 @@ ans = 'py.numpy.ndarray'
 but no conversion is required when using this in the MATLAB <samp>scatter</samp> command:
 
 ```matlab
-scatter(X(:,1),X(:,2),10,clx.labels_,"filled");
+scatter(X(:,1),X(:,2),10,clx.labels_,"filled"); 
 ```
 
 <center><img src="img/Using_the_CLASSIX_Python_package_in_MATLAB_media/figure_1.png" width="562" alt="figure_1.png"></center>
@@ -134,13 +136,13 @@ scatter(X(:,1),X(:,2),10,clx.labels_,"filled");
 Note that in the above clustering, CLASSIX found 4 clusters when we know the ground truth had 2. Two of those 'clusters' only had one data point in them though. We could use the <samp>minPts</samp> option to ensure that this does not happen. However, our first attempt results in an error message:
 
 ```matlab
-clx = py.classix.CLASSIX(radius=0.3, minPts=10, verbose=0);
+clx = py.classix.CLASSIX(radius=0.3, minPts=10, verbose=0); 
 ```
 
 ```TextOutput
 Error using clustering>minPts
 Python Error: TypeError: unsupported operand type(s) for &: 'float' and 'float'
-Error in clustering>__init__ (line 398)
+Error in clustering>__init__ (line 391)
 ```
 
 The reason for this is that in MATLAB a literal number such as <samp>10</samp> is of type double whereas in Python it is an integer. We need to be more explicit and make use of <samp>int32():</samp>
@@ -222,8 +224,8 @@ Error in backend_bases>new_figure_manager_given_figure (line 3401)
 Error in backend_bases>new_figure_manager (line 3396)
 Error in pyplot>new_figure_manager (line 465)
 Error in pyplot>figure (line 934)
-Error in clustering>explain_viz (line 1463)
-Error in clustering>explain (line 970)
+Error in clustering>explain_viz (line 1491)
+Error in clustering>explain (line 994)
 ```
 
 This is explained on MATLAB Answers at [Why am I not able to call python Tkinter in MATLAB? - MATLAB Answers - MATLAB Central (mathworks.com)](https://uk.mathworks.com/matlabcentral/answers/808595-why-am-i-not-able-to-call-python-tkinter-in-matlab?s_tid=srchtitle). We need to provide paths to TCL.
@@ -281,13 +283,13 @@ use .explain(ind1) or .explain(ind1, ind2) with indices of the data points.
 
 The plot opens in a separate window and is not available inline in the live script. Here is the plot saved from the time I ran it on my machine:
 
-<p style="text-align:left"><img src="img/Using_the_CLASSIX_Python_package_in_MATLAB_media/image_0.png" width="860" alt="image_0.png"></p>
+<p style="text-align:left"><img src="img/Using_the_CLASSIX_Python_package_in_MATLAB_media/image_0.png" width="763" alt="image_0.png"></p>
 
 
 Note how CLASSIX has identified 28 special data points labelled with numbers <samp>0,1,...,27</samp> in the above data plot. These special data points, called **starting points,** are all farther than <samp>radius</samp> apart from each other in the Euclidean norm (after some scaling of the data to make the results scaling invariant). Data points in the neighborhood of a starting point form what is called a  **group.** Each **cluster** is made up of one or more groups. 
 
 
-CLASSIX uses the groups to explain why data points ended up in the same cluster, or why they are in separate clusters. For example, we can ask CLASSIX why data point 1 and 90 ended up in the same cluster #1 as shown below.
+CLASSIX uses the groups to explain why data points ended up in the same cluster, or why they are in separate clusters. For example, we can ask CLASSIX why data point 1 and 90 are in the same cluster #1 as shown below.
 
 
 I**mportant note:** You might have to manually close the separate graphics window from the previous section to proceed.

@@ -59,7 +59,7 @@ Too many data points for plot. Randomly subsampled 1e5 points.
 <center><img src="img/Dealing_with_tightly_packed_clusters_media/figure_1.png" width="578" alt="figure_1.png"></center>
 
 
-Now the two ground truth clusters are mainly separated but we have a huge number of 680 unwanted clusters. We can find out about their cluster sizes by looking at <samp>out.cs</samp>:
+Now the two ground truth clusters are separated but we have a large number of 680 unwanted clusters. We can find out about their cluster sizes by looking at <samp>out.cs</samp>:
 
 ```matlab
 cs_sort = sort(out.cs,'descend');
@@ -107,7 +107,7 @@ Too many data points for plot. Randomly subsampled 1e5 points.
 <center><img src="img/Dealing_with_tightly_packed_clusters_media/figure_2.png" width="578" alt="figure_2.png"></center>
 
 
-This looks fairly good and is similar to what we could obtain by running k-means on that dataset. The adjusted Rand index confirms that we have succeeded in almost perfectly recovering the ground truth clusters:
+This looks very good. The adjusted Rand index confirms that we have succeeded in almost perfectly recovering the ground truth clusters:
 
 ```matlab
 rand_index(ground_truth,label,'adjusted')
@@ -118,7 +118,7 @@ ans = 0.9990
 ```
 # An experimental option
 
-We have added a new experimental option to <samp>classix.m</samp>, namely the optional flag <samp>merge_tiny_groups</samp>. This parameter is <samp>true</samp> by default, resulting in the original CLASSIX method [1]. But when it is set to <samp>false</samp>, tiny groups with fewer than <samp>minPts</samp> points will be ignored in the merging phase and become stand-alone clusters first, before they are subsequently merged into a nearest bigger cluster. (That's different from the usual <samp>minPts</samp> criterion which applies to the size of clusters, not the size of individual groups.) This option can sometimes overcome 'creeping' between small groups, whereby clusters get merged simply because they are touched by low density groups. This allows us to cluster the tight Gaussian blobs using a much larger <samp>radius</samp> parameter. A larger <samp>radius</samp> parameter usually leads to faster clustering results, and so this can be the preferred option with tightly packed clusters.
+The <samp>classix.m</samp> function accepts an optional flag called <samp>merge_tiny_groups</samp>. This parameter is <samp>true</samp> by default, resulting in the original CLASSIX method [1]. But when it is set to <samp>false</samp>, tiny groups with fewer than <samp>minPts</samp> points will be ignored in the merging phase and become stand-alone clusters first, before they are subsequently merged into a nearest bigger cluster. (That's different from the usual <samp>minPts</samp> criterion which applies to the size of clusters, not the size of individual groups.) This option can sometimes overcome 'creeping' between small groups, whereby clusters get merged simply because they are touched by low density groups. This allows us to cluster the tight Gaussian blobs using a much larger <samp>radius</samp> parameter. A larger <samp>radius</samp> parameter usually leads to faster clustering results, and so this can be the preferred option with tightly packed clusters.
 
 ```matlab
 opts = struct('merge_tiny_groups',0); % Don't merge tiny groups
