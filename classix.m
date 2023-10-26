@@ -48,21 +48,19 @@ end
 if nargin < 3
     minPts = 1;
 end
-
 if size(x,1) < size(x,2)
     warning('Fewer data points than features. Check that each row corresponds to a data point.');
 end
 if size(x,2) > 5000
     warning('More than 5000 features. Consider applying some dimension reduction first.');
 end
-
 if use_mex
     try
         matxsubmat(1,1,1,1);
         use_mex = 1;  % yes, use matxsubmat MEX file
     catch
         use_mex = 0; 
-        disp('MEX file not found. Consider compiling matxsubmat.c via ')
+        disp('MEX file not found. Consider compiling matxsubmat.c via')
         disp('mex matxsubmat.c -lmwblas')
         disp('or remove this warning with opts.use_mex=0.')
     end
@@ -85,7 +83,7 @@ else    % PCA via eigenvalues (faster & we don't need high accuracy)
         U = x';
     else
         xtx = x*x';
-        [V,d] = eig(xtx,"vector");
+        [V,d] = eig(xtx,'vector');
         [~,i] = sort(abs(d),'descend');
         V = V(:,i(1:2));
         V = V./vecnorm(V);
@@ -97,7 +95,6 @@ if size(U,2) == 1    % deal with 1-dim feature
     U(:,2) = 0;      % for the plotting
 end
 u = U(:,1);          % scores
-
 u = u*sign(-u(1));   % flip to enforce deterministic output
 [u,ind] = sort(u);
 x = x(:,ind);
