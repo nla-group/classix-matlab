@@ -1,6 +1,10 @@
 
 # <span style="color:rgb(213,80,0)">CLASSIX: Fast and explainable clustering in MATLAB</span>
 
+[![Open in MATLAB Online](https://www.mathworks.com/images/responsive/global/open-in-matlab-online.svg)](https://matlab.mathworks.com/open/github/v1?repo=nla-group/classix-matlab&file=README.mlx)
+[![View CLASSIX: Fast and explainable clustering on File Exchange](https://www.mathworks.com/matlabcentral/images/matlab-file-exchange.svg)](https://uk.mathworks.com/matlabcentral/fileexchange/153451-classix-fast-and-explainable-clustering)
+
+
 CLASSIX is a fast and memory-efficient clustering method which provides textual and visual explanations of its clustering results.
 
 # Basic usage
@@ -261,7 +265,7 @@ CLASSIX is a fast and memory-efficient clustering algorithm which produces expla
 -  Python code: [Fast and explainable clustering based on sorting (github.com)](https://github.com/nla-group/classix) 
 -  YouTube video: [CLASSIX - Fast and explainable clustering based on sorting - YouTube](https://www.youtube.com/watch?v=K94zgRjFEYo) 
 
-This documentation has been generated from the MATLAB Live Script <samp>README.mlx</samp>. You can open it in MATLAB Online and explore CLASSIX interactively: [https://matlab.mathworks.com/open/github/v1?repo=nla-group/classix-matlab&file=README.mlx](https://matlab.mathworks.com/open/github/v1?repo=nla-group/classix-matlab&file=README.mlx) 
+This documentation has been generated from the MATLAB Live Script <samp>README.mlx</samp>. You can open it in MATLAB Online and explore CLASSIX interactively: [![Open in MATLAB Online](https://www.mathworks.com/images/responsive/global/open-in-matlab-online.svg)](https://matlab.mathworks.com/open/github/v1?repo=nla-group/classix-matlab&file=README.mlx)
 
 # Contributors
 
