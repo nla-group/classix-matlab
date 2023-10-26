@@ -27,6 +27,8 @@ f = fread(fid,'*char')';
 fclose(fid);
 fld1 = strrep(fld1,'\','/'); % needed for Matlab FileExc link
 f = strrep(f,fld0,fld1);
+f = strrep(f,'[MATLABONLINEBADGE]','[![Open in MATLAB Online](https://www.mathworks.com/images/responsive/global/open-in-matlab-online.svg)](https://matlab.mathworks.com/open/github/v1?repo=nla-group/classix-matlab&file=README.mlx)');
+f = strrep(f,'[FILEEXCHANGEBADGE]','[![View CLASSIX: Fast and explainable clustering on File Exchange](https://www.mathworks.com/matlabcentral/images/matlab-file-exchange.svg)](https://uk.mathworks.com/matlabcentral/fileexchange/153451-classix-fast-and-explainable-clustering)');
 fid = fopen(md,'w');
 fprintf(fid,'%s',f);
 fclose(fid);
