@@ -21,10 +21,8 @@ pe =
        Executable: "C:\Program Files\Python311\python.exe"
           Library: "C:\Program Files\Python311\python311.dll"
              Home: "C:\Program Files\Python311"
-           Status: Loaded
+           Status: NotLoaded
     ExecutionMode: InProcess
-        ProcessID: "18456"
-      ProcessName: "MATLAB"
 ```
 
 It is also possible to use a venv Python environment. To do this, comment out the line above and uncomment the line below, changing the path to point to the Python executable in the version of Python you want to run.
@@ -70,47 +68,16 @@ clx.explain(plot=false);
 ```
 
 ```TextOutput
-A clustering of 200 data points with 2 features has been performed. 
-The radius parameter was set to 0.30 and MinPts was set to 0. 
-As the provided data has been scaled by a factor of 1/4.03,
-data points within a radius of R=0.30*4.03=1.21 were aggregated into groups. 
-In total 548 comparisons were required (2.74 comparisons per data point). 
-This resulted in 28 groups, each uniquely associated with a starting point. 
+CLASSIX clustered 200 data points with 2 features. 
+The radius parameter was set to 0.30 and minPts was set to 0. 
+As the provided data was auto-scaled by a factor of 1/4.03,
+points within a radius R=0.30*4.03=1.21 were grouped together. 
+In total, 548 distances were computed (2.7 per data point). 
+This resulted in 28 groups, each with a unique group center. 
 These 28 groups were subsequently merged into 4 clusters. 
-A list of all starting points is shown below.
-----------------------------------------
- Group  NrPts  Cluster Coordinates 
-   0      1      0       1.99 1.06 
-   1      3      1       1.56 0.83 
-   2      1      2        1.8 0.43 
-   3      3      1       1.12 1.26 
-   4     14      1       1.12 0.88 
-   5     11      1        1.27 0.6 
-   6     10      1       0.71 1.02 
-   7      4      1        1.23 0.3 
-   8     15      1       0.85 0.71 
-   9      8      1       0.93 0.36 
-  10      1      1        1.0 0.06 
-  11     13      1       0.45 0.77 
-  12      9      1       0.47 0.46 
-  13      4      1       0.11 0.79 
-  14      2      1       0.46 0.13 
-  15      1      1       -0.3 0.71 
-  16      3      3      -0.53 -0.0 
-  17     10      3      -0.2 -0.57 
-  18     26      3      -0.6 -0.36 
-  19      5      3     -0.84 -0.14 
-  20     19      3     -0.52 -0.67 
-  21      2      3     -1.14 -0.21 
-  22     19      3     -0.88 -0.61 
-  23      6      3     -0.67 -0.97 
-  24      4      3     -1.31 -0.46 
-  25      4      3     -1.05 -0.86 
-  26      1      3     -0.86 -1.22 
-  27      1      3     -1.37 -1.02 
-----------------------------------------
+For a visualisation of the clusters, use .explain(plot=True). 
 In order to explain the clustering of individual data points, 
-use .explain(ind1) or .explain(ind1, ind2) with indices of the data points.
+use .explain(ind1) or .explain(ind1, ind2) with data indices.
 ```
 
 The cluster labels of each data point are available in <samp>clx.labels</samp>_. This is a Numpy array:
@@ -142,7 +109,7 @@ clx = py.classix.CLASSIX(radius=0.3, minPts=10, verbose=0);
 ```TextOutput
 Error using clustering>minPts
 Python Error: TypeError: unsupported operand type(s) for &: 'float' and 'float'
-Error in clustering>__init__ (line 391)
+Error in clustering>__init__ (line 394)
 ```
 
 The reason for this is that in MATLAB a literal number such as <samp>10</samp> is of type double whereas in Python it is an integer. We need to be more explicit and make use of <samp>int32():</samp>
@@ -159,73 +126,40 @@ scatter(X(:,1),X(:,2),10,clx.labels_,"filled");
 Now, it looks like we have 2 clusters. The CLASSIX <samp>explain()</samp> method confirms this:
 
 ```matlab
-clx.explain()
+clx.explain(plot=false)
 ```
 
 ```TextOutput
-A clustering of 200 data points with 2 features has been performed. 
-The radius parameter was set to 0.30 and MinPts was set to 10. 
-As the provided data has been scaled by a factor of 1/4.03,
-data points within a radius of R=0.30*4.03=1.21 were aggregated into groups. 
-In total 548 comparisons were required (2.74 comparisons per data point). 
-This resulted in 28 groups, each uniquely associated with a starting point. 
+CLASSIX clustered 200 data points with 2 features. 
+The radius parameter was set to 0.30 and minPts was set to 10. 
+As the provided data was auto-scaled by a factor of 1/4.03,
+points within a radius R=0.30*4.03=1.21 were grouped together. 
+In total, 548 distances were computed (2.7 per data point). 
+This resulted in 28 groups, each with a unique group center. 
 These 28 groups were subsequently merged into 2 clusters. 
-A list of all starting points is shown below.
-----------------------------------------
- Group  NrPts  Cluster Coordinates 
-   0      1      0       1.99 1.06 
-   1      3      0       1.56 0.83 
-   2      1      0        1.8 0.43 
-   3      3      0       1.12 1.26 
-   4     14      0       1.12 0.88 
-   5     11      0        1.27 0.6 
-   6     10      0       0.71 1.02 
-   7      4      0        1.23 0.3 
-   8     15      0       0.85 0.71 
-   9      8      0       0.93 0.36 
-  10      1      0        1.0 0.06 
-  11     13      0       0.45 0.77 
-  12      9      0       0.47 0.46 
-  13      4      0       0.11 0.79 
-  14      2      0       0.46 0.13 
-  15      1      0       -0.3 0.71 
-  16      3      1      -0.53 -0.0 
-  17     10      1      -0.2 -0.57 
-  18     26      1      -0.6 -0.36 
-  19      5      1     -0.84 -0.14 
-  20     19      1     -0.52 -0.67 
-  21      2      1     -1.14 -0.21 
-  22     19      1     -0.88 -0.61 
-  23      6      1     -0.67 -0.97 
-  24      4      1     -1.31 -0.46 
-  25      4      1     -1.05 -0.86 
-  26      1      1     -0.86 -1.22 
-  27      1      1     -1.37 -1.02 
-----------------------------------------
+For a visualisation of the clusters, use .explain(plot=True). 
 In order to explain the clustering of individual data points, 
-use .explain(ind1) or .explain(ind1, ind2) with indices of the data points.
+use .explain(ind1) or .explain(ind1, ind2) with data indices.
 ```
 # CLASSIX explainability and plotting from Python
 
 A key feature of CLASSIX is that it can provide textual explanations of the computed clustering results, making it a fully explainable clustering algorithm. The CLASSIX <samp>explain()</samp> method can also produce plots, but you may receive an error message when attempting to do this from MATLAB:
 
 ```matlab
-clx.explain(plot=true)
+clx.explain(plot=true, showallgroups=true)
 ```
 
 ```TextOutput
-Error using __init__
-Python Error: TclError: Can't find a usable init.tcl in the following directories: 
-    {C:/Program Files/Python311/lib/tcl8.6} {C:/Program Files/MATLAB/R2023b/bin/lib/tcl8.6} {C:/Program Files/MATLAB/R2023b/lib/tcl8.6} {C:/Program Files/MATLAB/R2023b/bin/library} {C:/Program Files/MATLAB/R2023b/library} {C:/Program Files/MATLAB/R2023b/tcl8.6.12/library} {C:/Program Files/MATLAB/tcl8.6.12/library}
-This probably means that Tcl wasn't installed properly.
-Error in _backend_tk>create_with_canvas (line 486)
-Error in backend_bases>new_manager (line 1785)
-Error in backend_bases>new_figure_manager_given_figure (line 3401)
-Error in backend_bases>new_figure_manager (line 3396)
-Error in pyplot>new_figure_manager (line 465)
-Error in pyplot>figure (line 934)
-Error in clustering>explain_viz (line 1491)
-Error in clustering>explain (line 994)
+CLASSIX clustered 200 data points with 2 features. 
+The radius parameter was set to 0.30 and minPts was set to 10. 
+As the provided data was auto-scaled by a factor of 1/4.03,
+points within a radius R=0.30*4.03=1.21 were grouped together. 
+In total, 548 distances were computed (2.7 per data point). 
+This resulted in 28 groups, each with a unique group center. 
+These 28 groups were subsequently merged into 2 clusters. 
+For a visualisation of the clusters, use .explain(plot=True). 
+In order to explain the clustering of individual data points, 
+use .explain(ind1) or .explain(ind1, ind2) with data indices.
 ```
 
 This is explained on MATLAB Answers at [Why am I not able to call python Tkinter in MATLAB? - MATLAB Answers - MATLAB Central (mathworks.com)](https://uk.mathworks.com/matlabcentral/answers/808595-why-am-i-not-able-to-call-python-tkinter-in-matlab?s_tid=srchtitle). We need to provide paths to TCL.
@@ -234,86 +168,49 @@ This is explained on MATLAB Answers at [Why am I not able to call python Tkinter
 % You'll need to find the correct paths on your machine.
 setenv('TCL_LIBRARY', 'C:\Program Files\Python311\tcl\tcl8.6')
 setenv('TK_LIBRARY', 'C:\Program Files\Python311\tcl\tk8.6')
-clx.explain(plot=true)
+clx.explain(plot=true, showallgroups=true)
 ```
 
 ```TextOutput
-A clustering of 200 data points with 2 features has been performed. 
-The radius parameter was set to 0.30 and MinPts was set to 10. 
-As the provided data has been scaled by a factor of 1/4.03,
-data points within a radius of R=0.30*4.03=1.21 were aggregated into groups. 
-In total 548 comparisons were required (2.74 comparisons per data point). 
-This resulted in 28 groups, each uniquely associated with a starting point. 
+CLASSIX clustered 200 data points with 2 features. 
+The radius parameter was set to 0.30 and minPts was set to 10. 
+As the provided data was auto-scaled by a factor of 1/4.03,
+points within a radius R=0.30*4.03=1.21 were grouped together. 
+In total, 548 distances were computed (2.7 per data point). 
+This resulted in 28 groups, each with a unique group center. 
 These 28 groups were subsequently merged into 2 clusters. 
-A list of all starting points is shown below.
-----------------------------------------
- Group  NrPts  Cluster Coordinates 
-   0      1      0       1.99 1.06 
-   1      3      0       1.56 0.83 
-   2      1      0        1.8 0.43 
-   3      3      0       1.12 1.26 
-   4     14      0       1.12 0.88 
-   5     11      0        1.27 0.6 
-   6     10      0       0.71 1.02 
-   7      4      0        1.23 0.3 
-   8     15      0       0.85 0.71 
-   9      8      0       0.93 0.36 
-  10      1      0        1.0 0.06 
-  11     13      0       0.45 0.77 
-  12      9      0       0.47 0.46 
-  13      4      0       0.11 0.79 
-  14      2      0       0.46 0.13 
-  15      1      0       -0.3 0.71 
-  16      3      1      -0.53 -0.0 
-  17     10      1      -0.2 -0.57 
-  18     26      1      -0.6 -0.36 
-  19      5      1     -0.84 -0.14 
-  20     19      1     -0.52 -0.67 
-  21      2      1     -1.14 -0.21 
-  22     19      1     -0.88 -0.61 
-  23      6      1     -0.67 -0.97 
-  24      4      1     -1.31 -0.46 
-  25      4      1     -1.05 -0.86 
-  26      1      1     -0.86 -1.22 
-  27      1      1     -1.37 -1.02 
-----------------------------------------
+For a visualisation of the clusters, use .explain(plot=True). 
 In order to explain the clustering of individual data points, 
-use .explain(ind1) or .explain(ind1, ind2) with indices of the data points.
+use .explain(ind1) or .explain(ind1, ind2) with data indices.
 ```
 
 The plot opens in a separate window and is not available inline in the live script. Here is the plot saved from the time I ran it on my machine:
 
-<p style="text-align:left"><img src="img/Using_the_CLASSIX_Python_package_in_MATLAB_media/image_0.png" width="763" alt="image_0.png"></p>
+<p style="text-align:left"><img src="img/Using_the_CLASSIX_Python_package_in_MATLAB_media/image_0.png" width="685" alt="image_0.png"></p>
 
 
-Note how CLASSIX has identified 28 special data points labelled with numbers <samp>0,1,...,27</samp> in the above data plot. These special data points, called **starting points,** are all farther than <samp>radius</samp> apart from each other in the Euclidean norm (after some scaling of the data to make the results scaling invariant). Data points in the neighborhood of a starting point form what is called a  **group.** Each **cluster** is made up of one or more groups. 
+Note how CLASSIX has identified 28 special data points labelled with numbers <samp>0,1,...,27</samp> in the above data plot. These special data points, called **group centers,** are all farther than <samp>radius</samp> apart from each other in the Euclidean norm (after some scaling of the data to make the results scaling invariant). Data points in the neighborhood of a group center form a  **group.** Each **cluster** is made up of one or more groups. 
 
 
-CLASSIX uses the groups to explain why data points ended up in the same cluster, or why they are in separate clusters. For example, we can ask CLASSIX why data point 1 and 90 are in the same cluster #1 as shown below.
+CLASSIX uses the groups to explain why data points ended up in the same cluster, or why they are in separate clusters. For example, we can ask CLASSIX why data point 1 and 99 are in the same cluster #0 as shown below.
 
 
 I**mportant note:** You might have to manually close the separate graphics window from the previous section to proceed.
 
 ```matlab
-clx.explain(int32(1), int32(90), plot=true)
+clx.explain(int32(1), int32(99), plot=true)
 ```
 
 ```TextOutput
-----------------------------------------
- Group  NrPts  Cluster Coordinates  Label
-   5     11      0       1.27 0.6     1  
-  11     13      0      0.45 0.77    90  
-----------------------------------------
-The data point 1 is in group 5 and the data point 90 is in group 11, 
+The data point 1 is in group 5 and the data point 99 is in group 13, 
 both of which were merged into cluster #0. 
-These two groups are connected via groups 5 <-> 8 <-> 11.
-connected_paths: [5, 8, 11]
+These two groups are connected via groups 5 <-> 8 <-> 11 <-> 13.
 ```
 
-<p style="text-align:left"><img src="img/Using_the_CLASSIX_Python_package_in_MATLAB_media/image_1.png" width="537" alt="image_1.png"></p>
+<p style="text-align:left"><img src="img/Using_the_CLASSIX_Python_package_in_MATLAB_media/image_1.png" width="680" alt="image_1.png"></p>
 
 
-CLASSIX explains that data point 1 is in group 5, and data point 90 is in group 11, and there is a path via group 8 between these groups. In other words, we can go from data point 1 to 90 with two steps of length at most \texttt{1.5*radius} without leaving cluster 1. This is also shown visually in the above plot, with the groups 5, 8, and 11 highlighted by the green circles (the other groups are shown as red circles).
+CLASSIX explains that data point 1 is in group 5, and data point 99 is in group 13, and there is a connecting path via groups 8 and 11 between these groups. In other words, we can go from data point 1 to 99 in three steps of length at most \texttt{1.5*radius} without leaving cluster #0. This is also shown visually in the above plot, with the groups 5-8-11-13 connected by a path.
 
 # Interactive use with Live Controls
 
