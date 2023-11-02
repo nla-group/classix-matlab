@@ -1,11 +1,11 @@
 
 # <span style="color:rgb(213,80,0)">Using the CLASSIX Python package in MATLAB</span>
 
-While we recommend using <samp>classix.m</samp> when working in MATLAB, there might be good reasons to call the Python implementation of CLASSIX ([https://github.com/nla-group/classix](https://github.com/nla-group/classix)). For example, the Python version allows for density-based clustering which the MATLAB version doesn't, and it has seemless integration with pandas and other data sources. Here we demonstrate how to call the Python implementation directly from MATLAB.
+While we recommend using the [MATLAB version](https://github.com/nla-group/classix-matlab) of CLASSIX when working in MATLAB, there might be good reasons to call the [Python implementation](https://github.com/nla-group/classix-matlab) from within MATLAB too. For example, the Python version allows for density-based clustering which the MATLAB version doesn't, and it has seemless integration with pandas and other data sources. Here we demonstrate how to call the Python code directly from MATLAB.
 
 # MATLAB and Python versions
 
-When working with Python, it is suggested that you use the most recent version of MATLAB possible since the MATLAB-Python interoperability is improving quickly. Please refer to [Versions of Python Compatible with MATLAB Products by Release - MATLAB & Simulink (mathworks.com)](https://uk.mathworks.com/support/requirements/python-compatibility.html) to find out which Python versions are supported by your current MATLAB version. The best place to download a Python installation is [Download Python | Python.org](https://www.python.org/downloads/). Note that Python installations that come with the Anaconda or other distributions might not be fully supported.
+When working with Python, it is suggested that you use the most recent version of MATLAB possible since the MATLAB-Python interoperability is improving quickly. Please refer to [Versions of Python Compatible with MATLAB](https://uk.mathworks.com/support/requirements/python-compatibility.html) to find out which Python versions are supported by your current MATLAB version. The best place to download a Python installation is [Download Python | Python.org](https://www.python.org/downloads/). Note that Python installations that come with the Anaconda or other distributions might not be fully supported.
 
 
 We begin by ensuring that our Python environment is set up. The following command makes use of the system Python. Ensure that this version of Python has the CLASSIX clustering package installed. If this isn't the case, simply run **<samp>pip install classixclustering</samp>** on your command line. You might then have to restart MATLAB for the CLASSIX package to be available.
@@ -40,7 +40,7 @@ py.math.sqrt(42)
 ```TextOutput
 ans = 6.4807
 ```
-# Performing a basic clustering analysis on MATLAB data using CLASSIX
+# A basic clustering analysis on MATLAB data using CLASSIX
 
 Let's start by generating and plotting some data using MATLAB.
 
@@ -244,6 +244,7 @@ CLASSIX is a fast and memory-efficient clustering algorithm which produces expla
 
 If you'd like to learn more about CLASSIX, here are a couple of online references:
 
--  arXiv paper: [Fast and explainable clustering based on sorting (arxiv.org)](https://arxiv.org/abs/2202.01456) 
--  Python code: [Fast and explainable clustering based on sorting (github.com)](https://github.com/nla-group/classix) 
--  YouTube video: [CLASSIX - Fast and explainable clustering based on sorting - YouTube](https://www.youtube.com/watch?v=K94zgRjFEYo) 
+-  arXiv paper: [https://arxiv.org/abs/2202.01456](https://arxiv.org/abs/2202.01456) 
+-  Python code: [https://github.com/nla-group/classix](https://github.com/nla-group/classix) 
+-  MATLAB code: [https://github.com/nla-group/classix-matlab/](https://github.com/nla-group/classix-matlab/) 
+-  YouTube video: [https://www.youtube.com/watch?v=K94zgRjFEYo](https://www.youtube.com/watch?v=K94zgRjFEYo) 
