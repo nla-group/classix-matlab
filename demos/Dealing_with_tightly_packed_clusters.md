@@ -21,19 +21,19 @@ explain()
 ```
 
 ```TextOutput
-A clustering of 200000 data points with 2 features was performed.
+CLASSIX clustered 200000 data points with 2 features.
 The radius parameter was set to 0.10 and MinPts was set to 1.
 As the provided data was auto-scaled by a factor of 1/4.05,
 points within a radius R=0.10*4.05=0.41 were grouped together.
 In total, 3664460 distances were computed (18.3 per data point).
-This resulted in 635 groups, each with a unique starting point.
+This resulted in 635 groups, each with a unique group center.
 These 635 groups were subsequently merged into 12 clusters.
 In order to explain the clustering of individual data points,
 use explain(ind1) or explain(ind1,ind2) with indices of points.
 Too many data points for plot. Randomly subsampled 1e5 points.
 ```
 
-<center><img src="img/Dealing_with_tightly_packed_clusters_media/figure_0.png" width="578" alt="figure_0.png"></center>
+<center><img src="img/Dealing_with_tightly_packed_clusters_media/figure_0.png" width="562" alt="figure_0.png"></center>
 
 
 The data points between the two ground truth clusters are so close that even a small <samp>radius</samp> like 0.1 merges them together. Note also that we get 11 unwanted clusters with a small number of points. We could easily remove them by increasing <samp>minPts</samp>, but the two main clusters would still remain merged. Let's try a smaller radius.
@@ -44,19 +44,19 @@ explain()
 ```
 
 ```TextOutput
-A clustering of 200000 data points with 2 features was performed.
+CLASSIX clustered 200000 data points with 2 features.
 The radius parameter was set to 0.02 and MinPts was set to 1.
 As the provided data was auto-scaled by a factor of 1/4.05,
 points within a radius R=0.02*4.05=0.08 were grouped together.
 In total, 12320110 distances were computed (61.6 per data point).
-This resulted in 8813 groups, each with a unique starting point.
+This resulted in 8813 groups, each with a unique group center.
 These 8813 groups were subsequently merged into 682 clusters.
 In order to explain the clustering of individual data points,
 use explain(ind1) or explain(ind1,ind2) with indices of points.
 Too many data points for plot. Randomly subsampled 1e5 points.
 ```
 
-<center><img src="img/Dealing_with_tightly_packed_clusters_media/figure_1.png" width="578" alt="figure_1.png"></center>
+<center><img src="img/Dealing_with_tightly_packed_clusters_media/figure_1.png" width="562" alt="figure_1.png"></center>
 
 
 Now the two ground truth clusters are separated but we have a large number of 680 unwanted clusters. We can find out about their cluster sizes by looking at <samp>out.cs</samp>:
@@ -84,7 +84,7 @@ toc
 ```
 
 ```TextOutput
-Elapsed time is 2.202184 seconds.
+Elapsed time is 6.121746 seconds.
 ```
 
 ```matlab
@@ -92,19 +92,19 @@ explain()
 ```
 
 ```TextOutput
-A clustering of 200000 data points with 2 features was performed.
+CLASSIX clustered 200000 data points with 2 features.
 The radius parameter was set to 0.02 and MinPts was set to 50.
 As the provided data was auto-scaled by a factor of 1/4.05,
 points within a radius R=0.02*4.05=0.08 were grouped together.
 In total, 12320110 distances were computed (61.6 per data point).
-This resulted in 8813 groups, each with a unique starting point.
+This resulted in 8813 groups, each with a unique group center.
 These 8813 groups were subsequently merged into 2 clusters.
 In order to explain the clustering of individual data points,
 use explain(ind1) or explain(ind1,ind2) with indices of points.
 Too many data points for plot. Randomly subsampled 1e5 points.
 ```
 
-<center><img src="img/Dealing_with_tightly_packed_clusters_media/figure_2.png" width="578" alt="figure_2.png"></center>
+<center><img src="img/Dealing_with_tightly_packed_clusters_media/figure_2.png" width="562" alt="figure_2.png"></center>
 
 
 This looks very good. The adjusted Rand index confirms that we have succeeded in almost perfectly recovering the ground truth clusters:
@@ -128,7 +128,7 @@ toc
 ```
 
 ```TextOutput
-Elapsed time is 0.212367 seconds.
+Elapsed time is 0.554862 seconds.
 ```
 
 ```matlab
@@ -136,19 +136,19 @@ explain()
 ```
 
 ```TextOutput
-A clustering of 200000 data points with 2 features was performed.
+CLASSIX clustered 200000 data points with 2 features.
 The radius parameter was set to 0.10 and MinPts was set to 50.
 As the provided data was auto-scaled by a factor of 1/4.05,
 points within a radius R=0.10*4.05=0.41 were grouped together.
 In total, 3664460 distances were computed (18.3 per data point).
-This resulted in 635 groups, each with a unique starting point.
+This resulted in 635 groups, each with a unique group center.
 These 635 groups were subsequently merged into 2 clusters.
 In order to explain the clustering of individual data points,
 use explain(ind1) or explain(ind1,ind2) with indices of points.
 Too many data points for plot. Randomly subsampled 1e5 points.
 ```
 
-<center><img src="img/Dealing_with_tightly_packed_clusters_media/figure_3.png" width="578" alt="figure_3.png"></center>
+<center><img src="img/Dealing_with_tightly_packed_clusters_media/figure_3.png" width="562" alt="figure_3.png"></center>
 
 
 ```matlab
@@ -160,5 +160,5 @@ ans = 0.9989
 ```
 # References
 
-[1] C. Chen and S. Güttel. "Fast and explainable clustering based on sorting." arXiv: [https://arxiv.org/abs/2202.01456](https://arxiv.org/abs/2202.01456), 2022.
+[1] X. Chen and S. Güttel. "Fast and explainable clustering based on sorting." arXiv: [https://arxiv.org/abs/2202.01456](https://arxiv.org/abs/2202.01456), 2022.
 

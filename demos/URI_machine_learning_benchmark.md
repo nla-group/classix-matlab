@@ -29,13 +29,13 @@ fprintf('Banknote runtime: %5.3f seconds - classes: %d - ARI: %3.2f\n',...
 ```
 
 ```TextOutput
-Banknote runtime: 0.021 seconds - classes: 2 - ARI: 0.87
+Banknote runtime: 0.243 seconds - classes: 2 - ARI: 0.87
 ```
 
 ```matlab
 load('../data/Dermatology.mat')
 ind = find(~isnan(sum(data,2))); % data has 8 rows with NaN's
-data = data(ind,:); labels = label(ind); % remove then
+data = data(ind,:); labels = labels(ind); % remove then
 data = (data - mean(data))./std(data); % z-normalization 
 tic
 label = classix(data,0.4,4);
@@ -44,7 +44,7 @@ fprintf('Dermatology runtime: %5.3f seconds - classes: %d - ARI: %3.2f\n',...
 ```
 
 ```TextOutput
-Dermatology runtime: 0.019 seconds - classes: 7 - ARI: 0.00
+Dermatology runtime: 0.085 seconds - classes: 7 - ARI: 0.68
 ```
 
 ```matlab
@@ -57,7 +57,7 @@ fprintf('Ecoli runtime: %5.3f seconds - classes: %d - ARI: %3.2f\n',...
 ```
 
 ```TextOutput
-Ecoli runtime: 0.013 seconds - classes: 7 - ARI: 0.56
+Ecoli runtime: 0.047 seconds - classes: 7 - ARI: 0.56
 ```
 
 ```matlab
@@ -70,7 +70,7 @@ fprintf('Glass runtime: %5.3f seconds - classes: %d - ARI: %3.2f\n',...
 ```
 
 ```TextOutput
-Glass runtime: 0.009 seconds - classes: 26 - ARI: 0.23
+Glass runtime: 0.025 seconds - classes: 26 - ARI: 0.23
 ```
 
 ```matlab
@@ -83,7 +83,7 @@ fprintf('Iris runtime: %5.3f seconds - classes: %d - ARI: %3.2f\n',...
 ```
 
 ```TextOutput
-Iris runtime: 0.009 seconds - classes: 4 - ARI: 0.56
+Iris runtime: 0.078 seconds - classes: 4 - ARI: 0.56
 ```
 
 ```matlab
@@ -96,7 +96,7 @@ fprintf('Phoneme runtime: %5.3f seconds - classes: %d - ARI: %3.2f\n',...
 ```
 
 ```TextOutput
-Phoneme runtime: 2.228 seconds - classes: 4 - ARI: 0.76
+Phoneme runtime: 5.124 seconds - classes: 4 - ARI: 0.76
 ```
 
 ```matlab
@@ -109,7 +109,7 @@ fprintf('Seeds runtime: %5.3f seconds - classes: %d - ARI: %3.2f\n',...
 ```
 
 ```TextOutput
-Seeds runtime: 0.014 seconds - classes: 3 - ARI: 0.70
+Seeds runtime: 0.035 seconds - classes: 3 - ARI: 0.70
 ```
 
 ```matlab
@@ -122,7 +122,7 @@ fprintf('Wine runtime: %5.3f seconds - classes: %d - ARI: %3.2f\n',...
 ```
 
 ```TextOutput
-Wine runtime: 0.012 seconds - classes: 2 - ARI: 0.47
+Wine runtime: 0.028 seconds - classes: 2 - ARI: 0.47
 ```
 
 The results are in agreement with the paper, giving us confidence that the MATLAB implementation is equivalent to the Python one. Almost all clusterings were run in just a couple of milliseconds. Only the Phoneme dataset is slightly harder.
@@ -136,7 +136,7 @@ CLASSIX is a fast and memory-efficient clustering algorithm which produces expla
 -  YouTube video: [CLASSIX - Fast and explainable clustering based on sorting - YouTube](https://www.youtube.com/watch?v=K94zgRjFEYo) 
 # References
 
-[1] C. Chen and S. Güttel. "Fast and explainable clustering based on sorting." arXiv: [https://arxiv.org/abs/2202.01456](https://arxiv.org/abs/2202.01456), 2022.
+[1] X. Chen and S. Güttel. "Fast and explainable clustering based on sorting." arXiv: [https://arxiv.org/abs/2202.01456](https://arxiv.org/abs/2202.01456), 2022.
 
 
 [2] D. Dua and C. Graff. "UCI machine learning repository." URL: [http://archive.ics.uci.edu/ml](http://archive.ics.uci.edu/ml), 2017.

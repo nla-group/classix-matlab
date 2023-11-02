@@ -195,7 +195,7 @@ Note how CLASSIX has identified 28 special data points labelled with numbers <sa
 CLASSIX uses the groups to explain why data points ended up in the same cluster, or why they are in separate clusters. For example, we can ask CLASSIX why data point 1 and 99 are in the same cluster #0 as shown below.
 
 
-I**mportant note:** You might have to manually close the separate graphics window from the previous section to proceed.
+**Important note:** You might have to manually close the separate graphics window from the previous section to proceed.
 
 ```matlab
 clx.explain(int32(1), int32(99), plot=true)

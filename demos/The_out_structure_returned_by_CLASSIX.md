@@ -17,14 +17,14 @@ out
 
 ```TextOutput
 out = 
-      t1_prepare: 6.1810e-04
-    t2_aggregate: 0.0021
-        t3_merge: 0.0084
-       t4_minPts: 0.0016
-     t5_finalize: 2.6310e-04
+      t1_prepare: 0.0097
+    t2_aggregate: 0.0144
+        t3_merge: 0.0487
+       t4_minPts: 0.0087
+     t5_finalize: 0.0218
               cs: [2x1 double]
             dist: 26710
-              sp: [291x1 double]
+              gc: [291x1 double]
              scl: 1.6773
 ```
 
@@ -61,10 +61,10 @@ ans = 26710
 In this case, we have performed 26,710 distance computations. This is way below the maximum of 1372^2 = 941,192 distance computations that would be required by brute-force. As there are 1372 data points, on average every data point has been involved in 26710/1372 = 19.5 distance computations. 
 
 
-The <samp>out.sp</samp> parameter gives us the indices of the group centers (starting points) in the original data. Here are the first five:
+The <samp>out.gc</samp> parameter gives us the indices of the group centers in the original data. Here are the first five:
 
 ```matlab
-out.sp(1:5)
+out.gc(1:5)
 ```
 
 ```TextOutput
@@ -101,7 +101,7 @@ We see that data point 800 (say, <samp>p1</samp>) is in group 154. Let's get the
 
 ```matlab
 p1 = data(800,:);
-group_center1 = data(out.sp(154),:);
+group_center1 = data(out.gc(154),:);
 norm(p1 - group_center1)
 ```
 
@@ -112,12 +112,12 @@ ans = 0.1996
 The distance between these is 0.1996 and this is smaller than R = 0.21*1.68 = 0.35, which is why <samp>p1</samp> is in that group 154. (The scaling parameter 1.68 is explained below.)
 
 
-According to the explain output, there is path of overlapping groups <samp>154 -> 166 -> 185 -> 191</samp> which brings us to point 801 (say, <samp>p2</samp>). These four groups are overlapping, which in CLASSIX means that their starting points are at most 1.5*R = 1.5*0.35 = 0.525 apart. Let's confirm this:
+According to the explain output, there is path of overlapping groups <samp>154 -> 166 -> 185 -> 191</samp> which brings us to point 801 (say, <samp>p2</samp>). These four groups are overlapping, which in CLASSIX means that their group centers are at most 1.5*R = 1.5*0.35 = 0.525 apart. Let's confirm this:
 
 ```matlab
-[ norm(data(out.sp(154,:)) - data(out.sp(166,:))) , 
-  norm(data(out.sp(166,:)) - data(out.sp(185,:))) ,
-  norm(data(out.sp(185,:)) - data(out.sp(191,:))) ]
+[ norm(data(out.gc(154,:)) - data(out.gc(166,:))) , 
+  norm(data(out.gc(166,:)) - data(out.gc(185,:))) ,
+  norm(data(out.gc(185,:)) - data(out.gc(191,:))) ]
 ```
 
 ```TextOutput
@@ -156,12 +156,13 @@ There are two reasons for this scaling: (i) it makes the clustering invariant to
 
 CLASSIX is a fast and memory-efficient clustering algorithm which produces explainable results. If you'd like to learn more, here are a couple of online resources:
 
--  arXiv paper: [Fast and explainable clustering based on sorting (arxiv.org)](https://arxiv.org/abs/2202.01456) 
--  Python code: [Fast and explainable clustering based on sorting (github.com)](https://github.com/nla-group/classix) 
--  YouTube video: [CLASSIX - Fast and explainable clustering based on sorting - YouTube](https://www.youtube.com/watch?v=K94zgRjFEYo) 
+-  arXiv paper: [https://arxiv.org/abs/2202.01456](https://arxiv.org/abs/2202.01456) 
+-  Python code: [https://github.com/nla-group/classix](https://github.com/nla-group/classix) 
+-  MATLAB code: [https://github.com/nla-group/classix-matlab/](https://github.com/nla-group/classix-matlab/) 
+-  YouTube video: [https://www.youtube.com/watch?v=K94zgRjFEYo](https://www.youtube.com/watch?v=K94zgRjFEYo) 
 # References
 
-[1] C. Chen and S. Güttel. "Fast and explainable clustering based on sorting." arXiv: [https://arxiv.org/abs/2202.01456](https://arxiv.org/abs/2202.01456), 2022.
+[1] X. Chen and S. Güttel. "Fast and explainable clustering based on sorting." arXiv: [https://arxiv.org/abs/2202.01456](https://arxiv.org/abs/2202.01456), 2022.
 
 
 [2] D. Dua and C. Graff. "UCI machine learning repository." URL: [http://archive.ics.uci.edu/ml](http://archive.ics.uci.edu/ml), 2017.

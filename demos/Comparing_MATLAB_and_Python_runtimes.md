@@ -32,7 +32,7 @@ fprintf('CLASSIX.M       runtime: %5.3f seconds - classes: %d - ARI: %3.2f\n',..
 ```
 
 ```TextOutput
-CLASSIX.M       runtime: 0.020 seconds - classes: 2 - ARI: 0.87
+CLASSIX.M       runtime: 0.014 seconds - classes: 2 - ARI: 0.87
 ```
 
 ```matlab
@@ -44,7 +44,7 @@ fprintf('CLASSIX.M (MEX) runtime: %5.3f seconds - classes: %d - ARI: %3.2f\n',..
 ```
 
 ```TextOutput
-CLASSIX.M (MEX) runtime: 0.021 seconds - classes: 2 - ARI: 0.87
+CLASSIX.M (MEX) runtime: 0.016 seconds - classes: 2 - ARI: 0.87
 ```
 
 ```matlab
@@ -57,7 +57,7 @@ fprintf('CLASSIX.PY      runtime: %5.3f seconds - classes: %d - ARI: %3.2f\n',..
 ```
 
 ```TextOutput
-CLASSIX.PY      runtime: 0.050 seconds - classes: 2 - ARI: 0.87
+CLASSIX.PY      runtime: 0.027 seconds - classes: 2 - ARI: 0.87
 ```
 # Dermatology dataset
 ```matlab
@@ -75,7 +75,7 @@ fprintf('CLASSIX.M       runtime: %5.3f seconds - classes: %d - ARI: %3.2f\n',..
 ```
 
 ```TextOutput
-CLASSIX.M       runtime: 0.025 seconds - classes: 6 - ARI: 0.45
+CLASSIX.M       runtime: 0.017 seconds - classes: 6 - ARI: 0.45
 ```
 
 ```matlab
@@ -87,7 +87,7 @@ fprintf('CLASSIX.M (MEX) runtime: %5.3f seconds - classes: %d - ARI: %3.2f\n',..
 ```
 
 ```TextOutput
-CLASSIX.M (MEX) runtime: 0.024 seconds - classes: 6 - ARI: 0.45
+CLASSIX.M (MEX) runtime: 0.016 seconds - classes: 6 - ARI: 0.45
 ```
 
 ```matlab
@@ -100,7 +100,7 @@ fprintf('CLASSIX.PY      runtime: %5.3f seconds - classes: %d - ARI: %3.2f\n',..
 ```
 
 ```TextOutput
-CLASSIX.PY      runtime: 0.072 seconds - classes: 6 - ARI: 0.45
+CLASSIX.PY      runtime: 0.048 seconds - classes: 6 - ARI: 0.45
 ```
 # Ecoli dataset
 ```matlab
@@ -117,7 +117,7 @@ fprintf('CLASSIX.M       runtime: %5.3f seconds - classes: %d - ARI: %3.2f\n',..
 ```
 
 ```TextOutput
-CLASSIX.M       runtime: 0.014 seconds - classes: 7 - ARI: 0.56
+CLASSIX.M       runtime: 0.010 seconds - classes: 7 - ARI: 0.56
 ```
 
 ```matlab
@@ -129,7 +129,7 @@ fprintf('CLASSIX.M (MEX) runtime: %5.3f seconds - classes: %d - ARI: %3.2f\n',..
 ```
 
 ```TextOutput
-CLASSIX.M (MEX) runtime: 0.014 seconds - classes: 7 - ARI: 0.56
+CLASSIX.M (MEX) runtime: 0.012 seconds - classes: 7 - ARI: 0.56
 ```
 
 ```matlab
@@ -142,7 +142,7 @@ fprintf('CLASSIX.PY      runtime: %5.3f seconds - classes: %d - ARI: %3.2f\n',..
 ```
 
 ```TextOutput
-CLASSIX.PY      runtime: 0.030 seconds - classes: 7 - ARI: 0.56
+CLASSIX.PY      runtime: 0.021 seconds - classes: 7 - ARI: 0.56
 ```
 # Glass dataset
 ```matlab
@@ -159,7 +159,7 @@ fprintf('CLASSIX.M       runtime: %5.3f seconds - classes: %d - ARI: %3.2f\n',..
 ```
 
 ```TextOutput
-CLASSIX.M       runtime: 0.010 seconds - classes: 26 - ARI: 0.23
+CLASSIX.M       runtime: 0.005 seconds - classes: 26 - ARI: 0.23
 ```
 
 ```matlab
@@ -171,7 +171,7 @@ fprintf('CLASSIX.M (MEX) runtime: %5.3f seconds - classes: %d - ARI: %3.2f\n',..
 ```
 
 ```TextOutput
-CLASSIX.M (MEX) runtime: 0.009 seconds - classes: 26 - ARI: 0.23
+CLASSIX.M (MEX) runtime: 0.005 seconds - classes: 26 - ARI: 0.23
 ```
 
 ```matlab
@@ -184,7 +184,7 @@ fprintf('CLASSIX.PY      runtime: %5.3f seconds - classes: %d - ARI: %3.2f\n',..
 ```
 
 ```TextOutput
-CLASSIX.PY      runtime: 0.017 seconds - classes: 26 - ARI: 0.23
+CLASSIX.PY      runtime: 0.011 seconds - classes: 26 - ARI: 0.23
 ```
 # Iris dataset
 ```matlab
@@ -201,7 +201,7 @@ fprintf('CLASSIX.M       runtime: %5.3f seconds - classes: %d - ARI: %3.2f\n',..
 ```
 
 ```TextOutput
-CLASSIX.M       runtime: 0.007 seconds - classes: 4 - ARI: 0.56
+CLASSIX.M       runtime: 0.005 seconds - classes: 4 - ARI: 0.56
 ```
 
 ```matlab
@@ -213,7 +213,7 @@ fprintf('CLASSIX.M (MEX) runtime: %5.3f seconds - classes: %d - ARI: %3.2f\n',..
 ```
 
 ```TextOutput
-CLASSIX.M (MEX) runtime: 0.006 seconds - classes: 4 - ARI: 0.56
+CLASSIX.M (MEX) runtime: 0.004 seconds - classes: 4 - ARI: 0.56
 ```
 
 ```matlab
@@ -226,7 +226,7 @@ fprintf('CLASSIX.PY      runtime: %5.3f seconds - classes: %d - ARI: %3.2f\n',..
 ```
 
 ```TextOutput
-CLASSIX.PY      runtime: 0.013 seconds - classes: 4 - ARI: 0.56
+CLASSIX.PY      runtime: 0.009 seconds - classes: 4 - ARI: 0.56
 ```
 # Seeds dataset
 ```matlab
@@ -243,7 +243,7 @@ fprintf('CLASSIX.M       runtime: %5.3f seconds - classes: %d - ARI: %3.2f\n',..
 ```
 
 ```TextOutput
-CLASSIX.M       runtime: 0.010 seconds - classes: 3 - ARI: 0.70
+CLASSIX.M       runtime: 0.009 seconds - classes: 3 - ARI: 0.70
 ```
 
 ```matlab
@@ -255,7 +255,7 @@ fprintf('CLASSIX.M (MEX) runtime: %5.3f seconds - classes: %d - ARI: %3.2f\n',..
 ```
 
 ```TextOutput
-CLASSIX.M (MEX) runtime: 0.011 seconds - classes: 3 - ARI: 0.70
+CLASSIX.M (MEX) runtime: 0.010 seconds - classes: 3 - ARI: 0.70
 ```
 
 ```matlab
@@ -268,7 +268,7 @@ fprintf('CLASSIX.PY      runtime: %5.3f seconds - classes: %d - ARI: %3.2f\n',..
 ```
 
 ```TextOutput
-CLASSIX.PY      runtime: 0.027 seconds - classes: 3 - ARI: 0.70
+CLASSIX.PY      runtime: 0.019 seconds - classes: 3 - ARI: 0.70
 ```
 # Wine dataset
 ```matlab
@@ -285,7 +285,7 @@ fprintf('CLASSIX.M       runtime: %5.3f seconds - classes: %d - ARI: %3.2f\n',..
 ```
 
 ```TextOutput
-CLASSIX.M       runtime: 0.010 seconds - classes: 2 - ARI: 0.47
+CLASSIX.M       runtime: 0.006 seconds - classes: 2 - ARI: 0.47
 ```
 
 ```matlab
@@ -297,7 +297,7 @@ fprintf('CLASSIX.M (MEX) runtime: %5.3f seconds - classes: %d - ARI: %3.2f\n',..
 ```
 
 ```TextOutput
-CLASSIX.M (MEX) runtime: 0.011 seconds - classes: 2 - ARI: 0.47
+CLASSIX.M (MEX) runtime: 0.008 seconds - classes: 2 - ARI: 0.47
 ```
 
 ```matlab
@@ -310,7 +310,7 @@ fprintf('CLASSIX.PY      runtime: %5.3f seconds - classes: %d - ARI: %3.2f\n',..
 ```
 
 ```TextOutput
-CLASSIX.PY      runtime: 0.035 seconds - classes: 2 - ARI: 0.47
+CLASSIX.PY      runtime: 0.018 seconds - classes: 2 - ARI: 0.47
 ```
 # Phoneme dataset
 ```matlab
@@ -327,7 +327,7 @@ fprintf('CLASSIX.M       runtime: %5.3f seconds - classes: %d - ARI: %3.2f\n',..
 ```
 
 ```TextOutput
-CLASSIX.M       runtime: 4.965 seconds - classes: 4 - ARI: 0.76
+CLASSIX.M       runtime: 4.808 seconds - classes: 4 - ARI: 0.76
 ```
 
 ```matlab
@@ -339,7 +339,7 @@ fprintf('CLASSIX.M (MEX) runtime: %5.3f seconds - classes: %d - ARI: %3.2f\n',..
 ```
 
 ```TextOutput
-CLASSIX.M (MEX) runtime: 2.262 seconds - classes: 4 - ARI: 0.76
+CLASSIX.M (MEX) runtime: 2.101 seconds - classes: 4 - ARI: 0.76
 ```
 
 ```matlab
@@ -352,7 +352,7 @@ fprintf('CLASSIX.PY      runtime: %5.3f seconds - classes: %d - ARI: %3.2f\n',..
 ```
 
 ```TextOutput
-CLASSIX.PY      runtime: 3.472 seconds - classes: 4 - ARI: 0.76
+CLASSIX.PY      runtime: 2.861 seconds - classes: 4 - ARI: 0.76
 ```
 # VDU Signals dataset
 ```matlab
@@ -368,7 +368,7 @@ fprintf('CLASSIX.M       runtime: %5.3f seconds - classes: %d\n',...
 ```
 
 ```TextOutput
-CLASSIX.M       runtime: 1.331 seconds - classes: 11
+CLASSIX.M       runtime: 1.082 seconds - classes: 11
 ```
 
 ```matlab
@@ -380,7 +380,7 @@ fprintf('CLASSIX.M (MEX) runtime: %5.3f seconds - classes: %d\n',...
 ```
 
 ```TextOutput
-CLASSIX.M (MEX) runtime: 1.158 seconds - classes: 11
+CLASSIX.M (MEX) runtime: 0.980 seconds - classes: 11
 ```
 
 ```matlab
@@ -393,7 +393,7 @@ fprintf('CLASSIX.PY      runtime: %5.3f seconds - classes: %d\n',...
 ```
 
 ```TextOutput
-CLASSIX.PY      runtime: 3.513 seconds - classes: 9
+CLASSIX.PY      runtime: 2.467 seconds - classes: 9
 ```
 
 ```matlab
@@ -407,12 +407,13 @@ Agreement between M and PY: ARI 1.00
 
 CLASSIX is a fast and memory-efficient clustering algorithm which produces explainable results. If you'd like to learn more, here are a couple of online resources:
 
--  arXiv paper: [Fast and explainable clustering based on sorting (arxiv.org)](https://arxiv.org/abs/2202.01456) 
--  Python code: [Fast and explainable clustering based on sorting (github.com)](https://github.com/nla-group/classix) 
--  YouTube video: [CLASSIX - Fast and explainable clustering based on sorting - YouTube](https://www.youtube.com/watch?v=K94zgRjFEYo) 
+-  arXiv paper: [https://arxiv.org/abs/2202.01456](https://arxiv.org/abs/2202.01456) 
+-  Python code: [https://github.com/nla-group/classix](https://github.com/nla-group/classix) 
+-  MATLAB code: [https://github.com/nla-group/classix-matlab/](https://github.com/nla-group/classix-matlab/) 
+-  YouTube video: [https://www.youtube.com/watch?v=K94zgRjFEYo](https://www.youtube.com/watch?v=K94zgRjFEYo) 
 # References
 
-[1] C. Chen and S. Güttel. "Fast and explainable clustering based on sorting." arXiv: [https://arxiv.org/abs/2202.01456](https://arxiv.org/abs/2202.01456), 2022.
+[1] X. Chen and S. Güttel. "Fast and explainable clustering based on sorting." arXiv: [https://arxiv.org/abs/2202.01456](https://arxiv.org/abs/2202.01456), 2022.
 
 
 [2] D. Dua and C. Graff. "UCI machine learning repository." URL: [http://archive.ics.uci.edu/ml](http://archive.ics.uci.edu/ml), 2017.
