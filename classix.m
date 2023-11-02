@@ -1,11 +1,11 @@
-function [label, explain, out] = classix(x, radius, minPts, opts)
+function [label, explain, out] = classix(data, radius, minPts, opts)
 % CLASSIX - Fast and explainable clustering based on sorting.
-%   [label, explain, out] = classix(x, radius, minPts, opts)
+% [label, explain, out] = classix(data, radius, minPts, opts)
 %
-% inputs   * data matrix x (each row is a data point)
+% inputs   * data matrix (each row is a data point)
 %          * radius parameter 
 %          * minPts parameter (default 1)
-%          * opts structure with fields
+%          * opts structure (optional) with fields
 %                 .merge_tiny_groups - Boolean default 1
 %                 .use_mex - Boolean default 1
 %
@@ -19,15 +19,15 @@ function [label, explain, out] = classix(x, radius, minPts, opts)
 %                .t1... -  timings of CLASSIX's phases (in seconds)
 %
 % This is a MATLAB implementation of the CLASSIX clustering algorithm:
-% X. Chen & S. Güttel. Fast and explainable clustering based on sorting. 
-% Technical Report arXiv:2202.01456, arXiv, 2022. 
-% https://arxiv.org/abs/2202.01456
+%   X. Chen & S. Güttel. Fast and explainable clustering based on sorting. 
+%   Technical Report arXiv:2202.01456, arXiv, 2022. 
+%   https://arxiv.org/abs/2202.01456
 %
 % The code optionally uses a MEX implementation of a more efficent
 % submatrix multiplication (avoiding memory copying). To enable 
 % that, you need to compile matxsubmat.c by typing
 % 
-% mex matxsubmat.c -lmwblas
+%   mex matxsubmat.c -lmwblas
 
 %% preparation %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 t = tic;
@@ -48,10 +48,10 @@ end
 if nargin < 3
     minPts = 1;
 end
-if size(x,1) < size(x,2)
+if size(data,1) < size(data,2)
     warning('Fewer data points than features. Check that each row corresponds to a data point.');
 end
-if size(x,2) > 5000
+if size(data,2) > 5000
     warning('More than 5000 features. Consider applying some dimension reduction first.');
 end
 if use_mex
@@ -66,7 +66,7 @@ if use_mex
     end
 end
 
-x = x';    % transpose. much faster when data points are stored column-wise
+x = data';  % transpose. much faster when data points are stored column-wise
 x = x - mean(x,2);
 scl = median(vecnorm(x,2,1));
 if scl == 0
