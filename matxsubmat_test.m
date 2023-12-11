@@ -7,7 +7,15 @@
 % where A, B, and C are matrices containing real values.
 
 rng('default')
-mex matxsubmat.c -lmwblas
+try 
+    matxsubmat(1,1,1,1);
+catch
+    try
+        mex matxsubmat.c -lmwblas
+    catch
+        error('matxsubmat.c could not be compiled')
+    end
+end
 
 A = randn(1,100);
 B = randn(100,10000);

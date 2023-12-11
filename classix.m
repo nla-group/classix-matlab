@@ -24,8 +24,8 @@ function [label, explain, out] = classix(data, radius, minPts, opts)
 %   https://arxiv.org/abs/2202.01456
 %
 % The code optionally uses a MEX implementation of a more efficent
-% submatrix multiplication (avoiding memory copying). To enable 
-% that, you need to compile matxsubmat.c by typing
+% submatrix multiplication (avoiding memory copying). To enable that, 
+% you need to compile matxsubmat.c by typing
 % 
 %   mex matxsubmat.c -lmwblas
 
