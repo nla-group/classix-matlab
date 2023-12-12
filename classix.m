@@ -94,8 +94,9 @@ end
 if size(U,2) == 1    % deal with 1-dim feature
     U(:,2) = 0;      % for the plotting
 end
-u = U(:,1);          % scores
-u = u*sign(-u(1));   % flip to enforce deterministic output
+U(:,1) = U(:,1)*sign(-U(1,1)); % flip to enforce deterministic output
+U(:,2) = U(:,2)*sign(-U(1,2)); % also for plotting
+u = U(:,1);                    % scores
 [u,ind] = sort(u);
 x = x(:,ind);
 half_r2 = radius^2/2;
