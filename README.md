@@ -260,7 +260,7 @@ Extrapolated DBSCAN runtime for all 2028780 datapoints: 56.2 minutes.
 
 CLASSIX is a fast and memory-efficient clustering algorithm which produces explainable results. If you'd like to learn more, here are a couple of online resources:
 
--  arXiv paper: [https://arxiv.org/abs/2202.01456](https://arxiv.org/abs/2202.01456) 
+-  Paper: https://doi.org/10.1016/j.patcog.2024.110298 
 -  Python code: [https://github.com/nla-group/classix](https://github.com/nla-group/classix) 
 -  MATLAB code: [https://github.com/nla-group/classix-matlab/](https://github.com/nla-group/classix-matlab/) 
 -  YouTube video: [https://www.youtube.com/watch?v=K94zgRjFEYo](https://www.youtube.com/watch?v=K94zgRjFEYo) 
