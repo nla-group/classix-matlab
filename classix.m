@@ -200,7 +200,7 @@ for i = 1:length(gc)
     A(id,i) = 1; % adjacency, keep track of merged groups 
 
     gcl = unique(gc_label(id)); % get all the affected group center labels
-    % TODO: could speedup unique by exploiting sorting?
+    % NOTE: gc_label(id) is not necessarily sorted!
 
     minlab = min(gcl);
     for L = gcl(:).'
@@ -291,7 +291,7 @@ explain = @(varargin) explain_fun(varargin);
 
         if isempty(args) 
             fprintf('CLASSIX clustered %d data points with %d features.\n',size(x,2),size(x,1));
-            fprintf('The radius parameter was set to %3.2f and MinPts was set to %d.\n',radius,minPts); 
+            fprintf('The radius parameter was set to %3.2f and minPts was set to %d.\n',radius,minPts); 
             fprintf('As the provided data was auto-scaled by a factor of 1/%3.2f,\n',scl);
             fprintf('points within a radius R=%3.2f*%3.2f=%3.2f were grouped together.\n',radius,scl,radius*scl);
             fprintf('In total, %d distances were computed (%3.1f per data point).\n',dist,dist/size(x,2));
