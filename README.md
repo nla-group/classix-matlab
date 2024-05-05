@@ -71,7 +71,7 @@ A path of overlapping groups with step size <= 1.5*R = 1.21 is:
 <center><img src="img/README_media/figure_1.png" width="578" alt="figure_1.png"></center>
 
 
-See how CLASSIX has highlighted the two data points 100 and 800 as magenta crosses (<samp>x</samp>) in the blue cluster (cluster #1). Each of these data points falls into a group (group number 49 and 6, respectively) and the group centers are shown as black pluses (<samp>+</samp>),with the green and cyan circles indicating the group radius. The size of the groups is controlled by CLASSIX's <samp>radius</samp> parameter, and two groups are considered as overlapping when their group centers are less than \texttt{1.5*R} apart. Overlapping groups are merged into clusters.
+See how CLASSIX has highlighted the two data points 100 and 800 as magenta crosses (<samp>x</samp>) in the blue cluster (cluster #1). Each of these data points falls into a group (group number 49 and 6, respectively) and the group centers are shown as black pluses (<samp>+</samp>),with the green and cyan circles indicating the group radius. The size of the groups is controlled by CLASSIX's <samp>radius</samp> parameter, and two groups are considered as overlapping when their group centers are less than <samp>1.5*R</samp> apart. Overlapping groups are merged into clusters.
 
 
 CLASSIX's explanation of why data both points are in the same cluster is that there is a path of overlapping groups leading from group 49 to group 6, and this path is also shown with black pluses (<samp>+</samp>). This feature simply uses MATLAB's <samp>shortestpath</samp> graph function. However, note that the path is not necessarily the shortest due to the sequential nature of the group merging. It is just *some* path of data points (group centers) within the cluster that connects the groups containing the two data points in question.
@@ -260,7 +260,7 @@ Extrapolated DBSCAN runtime for all 2028780 datapoints: 56.2 minutes.
 
 CLASSIX is a fast and memory-efficient clustering algorithm which produces explainable results. If you'd like to learn more, here are a couple of online resources:
 
--  arXiv paper: [https://arxiv.org/abs/2202.01456](https://arxiv.org/abs/2202.01456) 
+-  Paper: https://doi.org/10.1016/j.patcog.2024.110298 
 -  Python code: [https://github.com/nla-group/classix](https://github.com/nla-group/classix) 
 -  MATLAB code: [https://github.com/nla-group/classix-matlab/](https://github.com/nla-group/classix-matlab/) 
 -  YouTube video: [https://www.youtube.com/watch?v=K94zgRjFEYo](https://www.youtube.com/watch?v=K94zgRjFEYo) 
@@ -273,7 +273,7 @@ This CLASSIX implementation is maintained by Xinye Chen (Charles University Prag
 
 # References
 
-[1] X. Chen and S. Güttel. "Fast and explainable clustering based on sorting." arXiv: [https://arxiv.org/abs/2202.01456](https://arxiv.org/abs/2202.01456), 2022.
+[1] X. Chen and S. Güttel. "Fast and explainable clustering based on sorting." Pattern Recognition 150, pages 110298, 2024. https://doi.org/10.1016/j.patcog.2024.110298
 
 
 [2] D. Dua and C. Graff. "UCI machine learning repository." URL: [http://archive.ics.uci.edu/ml](http://archive.ics.uci.edu/ml), 2017.
