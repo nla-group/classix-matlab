@@ -8,6 +8,7 @@ function [label, explain, out] = classix(data, radius, minPts, opts)
 %          * opts structure (optional) with fields
 %                 .merge_tiny_groups - Boolean default 1
 %                 .use_mex - Boolean default 1
+%                 .merge_scale - scaling parameter for merging default 1.5
 %
 % returns  * cluster labels of the data
 %          * function handle to explain functionality
@@ -44,6 +45,11 @@ if isfield(opts,'use_mex')
     use_mex = opts.use_mex;
 else
     use_mex = 1;
+end
+if isfield(opts,'merge_scale')
+    merge_scale = opts.merge_scale;
+else
+    merge_scale = 1.5;
 end
 if nargin < 3
     minPts = 1;
@@ -179,11 +185,11 @@ for i = 1:length(gc)
     end
 
     xi = gc_x(:,i);      % current group center coordinate
-    rhs = (1.5*radius)^2/2 - gc_half_nrm2(i);  % rhs of norm ineq.
+    rhs = (merge_scale*radius)^2/2 - gc_half_nrm2(i);  % rhs of norm ineq.
 
-    % get id = (vecnorm(xi - gc_x) <= 1.5*radius); and igore id's < i
+    % get id = (vecnorm(xi - gc_x) <= merge_scale*radius); and igore id's < i
     if use_mex
-        last_j = find(gc_u - gc_u(i) <= 1.5*radius, 1, 'last'); % TODO: could exploit that u is sorted (binary search)
+        last_j = find(gc_u - gc_u(i) <= merge_scale*radius, 1, 'last'); % TODO: could exploit that u is sorted (binary search)
         ips = matxsubmat(xi',gc_x,i,last_j);
         ips = [ zeros(1,i-1) , ips , zeros(1,size(gc_x,2)-last_j) ];
         id = (gc_half_nrm2 - ips <= rhs);
@@ -383,11 +389,11 @@ explain = @(varargin) explain_fun(varargin);
                     for g = p
                         scatter(U(gc(g),1),U(gc(g),2),100,"k+",'LineWidth',3);
                     end
-                    fprintf('A path of overlapping groups with step size <= 1.5*R = %3.2f is:\n',1.5*radius*scl);
+                    fprintf('A path of overlapping groups with step size <= %3.2f*R = %3.2f is:\n',merge_scale,merge_scale*radius*scl);
                     fprintf(' %d ->',p(1:end-1));
                     fprintf(' %d\n',p(end))
                 else
-                    fprintf('No path from group %d to group %d with step size <=1.5*R=%3.2f.\n',group_label(ind1),group_label(ind2),1.5*radius*scl);
+                    fprintf('No path from group %d to group %d with step size <=%3.2f*R=%3.2f.\n',group_label(ind1),group_label(ind2),merge_scale,merge_scale*radius*scl);
                     fprintf('This is because at least one of the groups was reassigned due\nto the minPts condition.\n');
                 end
             else % different clusters
