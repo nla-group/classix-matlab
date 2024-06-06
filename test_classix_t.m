@@ -5,8 +5,8 @@ load data/BL_Sets.mat
 data = sparse(double(data));
 
 %%
-radius = 0.45; 
-minPts = 10;
+radius = 0.39; 
+minPts = 50;
 opts.merge_scale = 1.2;
 opts.merge_tiny_groups = 1;
 opts.use_mex = 1;
