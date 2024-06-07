@@ -40,14 +40,16 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[])
         if( j+1<col_s ) {
             /* skip this column */
 
-            
+
+            /*
             while( nrow-- ) {
                 *Mpr++;
                 *Mir++;
             }
+            */
 
-            /* *Mpr += nrow;   skip matrix element */
-            /* *Mir += nrow;   skip row-index position for this element */
+            Mpr += nrow;   /* skip matrix element */
+            Mir += nrow;  /* skip row-index position for this element */
             
             continue;
         }
