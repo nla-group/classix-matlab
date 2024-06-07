@@ -102,7 +102,7 @@ x = x(:,ind);
 out = struct();
 out.t1_prepare = toc(t);
 
-%% aggregation %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% aggregation %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 t = tic;
 
 n = size(x,2);
@@ -130,7 +130,8 @@ while i < n
     last_j = n;
     if use_mex
         % precomp inner products ips = xi'*x(:,i+1:last_j)
-        last_j = find(u <= ui/(1-radius), 1, 'last'); % TODO: could exploit that u is sorted (binary search)
+        % TODO: could exploit that u is sorted (binary search)
+        last_j = find(u <= ui/(1-radius), 1, 'last'); 
 
         if issparse(x)
             ips = vecxspsubmat(xi,x,i+1,last_j);
@@ -172,7 +173,7 @@ group_label = label; % store original group labels
 out.t2_aggregate = toc(t);
 
 
-%% merging %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% merging %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 t = tic;
 
 gc_x = x(:,gc);
@@ -190,8 +191,9 @@ for i = 1:length(gc)
 
     % get id = (tanimoto(xi,gc_x) <= merge_scale*radius); and igore id's < i
     if use_mex
-        last_j = find(gc_u <= gc_u(i)/(1-merge_scale*radius), 1, 'last'); % TODO: could exploit that u is sorted (binary search)
-        
+        % TODO: could exploit that u is sorted (binary search)
+        last_j = find(gc_u <= gc_u(i)/(1-merge_scale*radius), 1, 'last'); 
+
         if issparse(gc_x)
             ips = vecxspsubmat(xi,gc_x,i,last_j);
         else
@@ -241,7 +243,7 @@ out.t3_merge = toc(t);
 % for each group center, and cs contains the total number of points
 % for each cluster label.
 
-%% minPts %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% minPts %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % Now eliminate tiny clusters by reassigning each of the constituting groups
 % to the nearest group belonging to a cluster with at least minPts points. 
 % This means, we are potentially dissolving tiny clusters, reassigning groups 
@@ -256,7 +258,7 @@ wb = waitbar(0,'CLASSIX\_T minPts');
 for i = id(:)'
     ii = find(copy_gc_label==i); % find all tiny groups with that label
     for iii = ii(:)'
-        xi = full(gc_x(:,iii));        % group center (starting point) of one tiny group
+        xi = full(gc_x(:,iii));  % group center (starting point) of one tiny group
         
         ips = xi'*gc_x;
         d = 1 - ips./(gc_u(iii) + gc_u - ips);
@@ -295,7 +297,7 @@ group_label = group_label(J);
 gc = ind(gc); 
 out.t4_minPts = toc(t);
 
-%% explain function %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%% explain function %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 t = tic;
 
