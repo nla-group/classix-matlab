@@ -8,7 +8,7 @@ function [label, explain, out] = classix_t(data, radius, minPts, opts)
 %          * opts structure (optional) with fields
 %                 .merge_tiny_groups - Boolean default 1
 %                 .use_mex - Boolean default 1
-%                 .merge_scale - scaling parameter for merging default 1.2
+%                 .merge_scale - merge scaling param default 1/sqrt(radius)
 %
 % returns  * cluster labels of the data
 %          * function handle to explain functionality
@@ -51,7 +51,13 @@ end
 if isfield(opts,'merge_scale')
     merge_scale = opts.merge_scale;
 else
-    merge_scale = 1.2;
+    merge_scale = 1/sqrt(radius);
+end
+if radius <= 0 || radius > 1
+    error('radius needs to be between 0 and 1');
+end
+if merge_scale*radius > 1
+    error('merge_scale*radius needs to be <= 1');
 end
 if nargin < 3
     minPts = 1;
@@ -87,10 +93,6 @@ if use_mex
     end
 end
 
-if merge_scale*radius > 1
-    error('merge_scale*radius needs to be <= 1');
-end
-
 x = double(data');  % transpose. much faster when data points are stored column-wise
 U = full([ sum(x,1).', sum(x(1:2:end,:),1).' ]);
 u = U(:,1);                  % scores
@@ -110,7 +112,7 @@ dist = 0;    % # distance comput.
 i = 0;
 gc = [];     % indices of group centers (in sorted array)
 gs = [];     % group size
-wb = waitbar(0,'CLASSIX Aggregation');
+wb = waitbar(0,'CLASSIX\_T Aggregation');
 while i < n
     i = i + 1;
     
@@ -178,6 +180,7 @@ gc_u = u(gc);
 gc_label = label(gc);  % will be [1,2,3,...]
 A = spalloc(length(gc),length(gc),10*length(gc)); % adjacency of group centers
 
+wb = waitbar(0,'CLASSIX\_T Merging');
 for i = 1:length(gc)
     if ~merge_tiny_groups && gs(i) < minPts % tiny groups cannot take over large ones
         continue
@@ -219,7 +222,9 @@ for i = 1:length(gc)
     end                                   % not just the ones in id, as otherwise
                                           % groups that joined out of
                                           % order might stay disconnected
+    waitbar(i/length(gc),wb)
 end
+close(wb)
 
 % rename labels to be 1,2,3,... and determine cluster sizes
 ul = unique(gc_label);
@@ -247,6 +252,7 @@ t = tic;
 id = find(cs < minPts);   % cluster labels with small number of total points
 copy_gc_label = gc_label; % added by Xinye (gc_label's before reassignment of tiny groups)
 
+wb = waitbar(0,'CLASSIX\_T minPts');
 for i = id(:)'
     ii = find(copy_gc_label==i); % find all tiny groups with that label
     for iii = ii(:)'
@@ -263,7 +269,9 @@ for i = id(:)'
             end
         end
     end
+    waitbar(i/max(id),wb)
 end
+close(wb)
 
 % rename labels to be 1,2,3,... and determine cluster sizes again
 % needs to be redone because the tiny groups have now disappeared
