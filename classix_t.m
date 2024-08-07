@@ -93,14 +93,19 @@ if use_mex
     end
 end
 
-x = double(data');  % transpose. much faster when data points are stored column-wise
+x = double(data.');  % transpose. much faster when data points are stored column-wise
+
+% TODO: probing reduction here
+
+out = struct();
+
 U = full([ sum(x,1).', sum(x(1:2:end,:),1).' ]);
 u = U(:,1);                  % scores
 [u,ind] = sort(u); u = u.';
+out.data0 = x;
 x = x(:,ind);
-
-out = struct();
 out.t1_prepare = toc(t);
+
 
 %% aggregation %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 t = tic;
@@ -112,6 +117,7 @@ dist = 0;    % # distance comput.
 i = 0;
 gc = [];     % indices of group centers (in sorted array)
 gs = [];     % group size
+rhs = 1/(1-radius)+1; % rhs of tanimoto distance inequality
 wb = waitbar(0,'CLASSIX\_T Aggregation');
 while i < n
     i = i + 1;
@@ -160,7 +166,8 @@ while i < n
             ip = full(xi'*x(:,j)); % expensive
         end
 
-        if (1-ip/(ui + u(j)-ip)) <= radius   % if tanimotodist <= radius
+        %if (1-ip/(ui + u(j)-ip)) <= radius   % if tanimotodist <= radius
+        if (ui + u(j)) <= rhs*ip
             label(j) = lab;
             gs(end) = gs(end) + 1;
         end
@@ -172,6 +179,7 @@ close(wb)
 group_label = label; % store original group labels
 out.t2_aggregate = toc(t);
 
+out.label = label;
 
 %% merging %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 t = tic;
