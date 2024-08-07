@@ -102,7 +102,6 @@ out = struct();
 U = full([ sum(x,1).', sum(x(1:2:end,:),1).' ]);
 u = U(:,1);                  % scores
 [u,ind] = sort(u); u = u.';
-out.data0 = x;
 x = x(:,ind);
 out.t1_prepare = toc(t);
 
